@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: "ContributionXpert | Real-time Contribution Dashboard",
   description:
     "Scan GitHub repositories and generate interactive contributor leaderboards, scoring, and shareable analytics.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
