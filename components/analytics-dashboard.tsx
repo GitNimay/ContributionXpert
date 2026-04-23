@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   TrendingUp,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -47,6 +48,11 @@ type AnalyticsDashboardProps = {
 const chartColors = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
 
 export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardProps) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const topContributors = analysis.contributors.slice(0, 8);
   const leaderData = topContributors.map((contributor) => ({
     name: contributor.login,
@@ -58,6 +64,10 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
     ...point,
     label: shortDate(point.date),
   }));
+
+  if (!mounted) {
+    return <div className="min-h-screen" />;
+  }
   const mixData = [
     { name: "Commits", value: analysis.totals.commits },
     { name: "Merged PRs", value: analysis.totals.pullRequestsMerged },

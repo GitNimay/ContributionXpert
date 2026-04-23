@@ -27,23 +27,26 @@ export function DashboardLoader({
   shareId,
   mode = "workspace",
 }: DashboardLoaderProps) {
-  const [analysis, setAnalysis] = useState<RepositoryAnalysis | null>(() => {
-    if (typeof window === "undefined" || !workspaceId) return null;
-
-    const cached = window.localStorage.getItem(`repo-signal:${workspaceId}`);
-    if (!cached) return null;
-
-    try {
-      return JSON.parse(cached) as RepositoryAnalysis;
-    } catch {
-      window.localStorage.removeItem(`repo-signal:${workspaceId}`);
-      return null;
-    }
-  });
+  const [mounted, setMounted] = useState(false);
+  const [analysis, setAnalysis] = useState<RepositoryAnalysis | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const cacheKey = workspaceId ? `repo-signal:${workspaceId}` : null;
+
+  useEffect(() => {
+    setMounted(true);
+    if (cacheKey) {
+      const cached = window.localStorage.getItem(cacheKey);
+      if (cached) {
+        try {
+          setAnalysis(JSON.parse(cached) as RepositoryAnalysis);
+        } catch {
+          window.localStorage.removeItem(cacheKey);
+        }
+      }
+    }
+  }, [cacheKey]);
 
   const [currentStage, setCurrentStage] = useState("Initializing scan...");
   const [progress, setProgress] = useState(0);
@@ -162,7 +165,7 @@ export function DashboardLoader({
     window.setTimeout(() => setCopied(false), 1800);
   }
 
-  if (loading && !analysis) {
+  if (!mounted || (loading && !analysis)) {
     return (
       <div className="grid min-h-[420px] place-items-center border border-foreground bg-card p-8 hard-shadow">
         <div className="text-center w-full max-w-md">
