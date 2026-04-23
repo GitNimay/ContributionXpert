@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type AppFrameProps = {
   children: ReactNode;
@@ -26,27 +27,30 @@ export function AppFrame({ children, eyebrow, title, description, activeStep, hi
             <img src="/logo.png" alt="ContributionXpert Logo" className="h-6 w-6 object-contain" />
             ContributionXpert
           </Link>
-          {!hideSteps && (
-            <div className="flex flex-wrap gap-2">
-              {steps.map((step, index) => {
-                const isActive = step.id === activeStep;
+          <div className="flex items-center gap-4">
+            {!hideSteps && (
+              <div className="flex flex-wrap gap-2">
+                {steps.map((step, index) => {
+                  const isActive = step.id === activeStep;
 
-                return (
-                  <Link
-                    key={step.id}
-                    href={step.href}
-                    className={`border px-3 py-2 text-xs font-bold uppercase ${
-                      isActive
-                        ? "border-foreground bg-foreground text-background"
-                        : "border-border bg-background text-muted-foreground"
-                    }`}
-                  >
-                    {String(index + 1).padStart(2, "0")} {step.label}
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+                  return (
+                    <Link
+                      key={step.id}
+                      href={step.href}
+                      className={`border px-3 py-2 text-xs font-bold uppercase ${
+                        isActive
+                          ? "border-foreground bg-foreground text-background"
+                          : "border-border bg-background text-muted-foreground"
+                      }`}
+                    >
+                      {String(index + 1).padStart(2, "0")} {step.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+            <ThemeToggle />
+          </div>
         </nav>
 
         <header className="mb-6 grid gap-4 border border-foreground bg-card p-5 sm:p-7 lg:grid-cols-[1fr_auto] lg:items-end">

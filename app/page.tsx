@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
@@ -12,16 +13,17 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <Link
               href="/explore"
-              className="px-4 py-2 text-sm font-bold uppercase transition hover:text-muted-foreground"
+              className="hidden sm:inline-block px-4 py-2 text-sm font-bold uppercase transition hover:text-muted-foreground"
             >
               Explore
             </Link>
             <Link
               href="/repository"
-              className="border border-foreground bg-foreground px-4 py-2 text-sm font-bold uppercase text-background transition hover:bg-background hover:text-foreground"
+              className="hidden sm:inline-block border border-foreground bg-foreground px-4 py-2 text-sm font-bold uppercase text-background transition hover:bg-background hover:text-foreground"
             >
               Start scan
             </Link>
+            <ThemeToggle />
           </div>
         </nav>
 
