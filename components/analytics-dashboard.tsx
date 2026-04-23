@@ -258,36 +258,36 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
 
 function ContributorRow({ contributor }: { contributor: ContributorStats }) {
   return (
-    <div className="grid gap-4 bg-background p-4 md:grid-cols-[42px_1fr_auto] md:items-center">
-      <div className="grid h-10 w-10 place-items-center border border-border bg-muted text-sm font-black">
+    <div className="grid gap-3 bg-background p-3 md:grid-cols-[36px_1fr_auto] md:items-center">
+      <div className="grid h-9 w-9 place-items-center border border-border bg-muted text-sm font-black">
         {String(contributor.rank).padStart(2, "0")}
       </div>
       <div className="min-w-0">
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2">
           {contributor.avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={contributor.avatarUrl}
               alt=""
-              className="h-8 w-8 border border-border grayscale"
+              className="h-6 w-6 border border-border grayscale"
               referrerPolicy="no-referrer"
             />
           ) : null}
-          <h3 className="truncate text-xl font-black tracking-[-0.06em]">{contributor.login}</h3>
+          <h3 className="truncate text-lg font-black tracking-[-0.04em]">{contributor.login}</h3>
           {contributor.isBot ? (
-            <span className="border border-border bg-muted px-2 py-1 text-xs uppercase text-muted-foreground">bot</span>
+            <span className="border border-border bg-muted px-1.5 py-0.5 text-[10px] font-bold uppercase text-muted-foreground">bot</span>
           ) : null}
         </div>
-        <div className="mt-3 grid gap-2 text-xs uppercase text-muted-foreground sm:grid-cols-4">
-          <span>{integer(contributor.commits)} commits</span>
-          <span>{integer(contributor.pullRequestsMerged)} merged PRs</span>
-          <span>{integer(contributor.reviews)} reviews</span>
-          <span>{timeAgo(contributor.lastActiveAt)}</span>
+        <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+          <span><strong className="text-foreground">{integer(contributor.commits)}</strong> commits</span>
+          <span><strong className="text-foreground">{integer(contributor.pullRequestsMerged)}</strong> merged PRs</span>
+          <span><strong className="text-foreground">{integer(contributor.reviews)}</strong> reviews</span>
+          <span className="uppercase">{timeAgo(contributor.lastActiveAt)}</span>
         </div>
       </div>
       <div className="text-left md:text-right">
-        <p className="text-2xl font-black tracking-[-0.08em]">{integer(contributor.points)}</p>
-        <p className="text-xs uppercase text-muted-foreground">points</p>
+        <p className="text-xl font-black tracking-[-0.06em] leading-none">{integer(contributor.points)}</p>
+        <p className="text-[10px] font-bold uppercase text-muted-foreground mt-0.5">points</p>
       </div>
     </div>
   );
