@@ -15,9 +15,9 @@ export default async function CreateWorkspacePage({ searchParams }: WorkspacePag
   return (
     <AppFrame
       activeStep="workspace"
-      eyebrow="page 2"
-      title="Create workspace"
-      description="Choose the scan window, scoring depth, and dashboard rules before onboarding starts."
+      eyebrow="Step 2: Configuration"
+      title="Configure Workspace"
+      description="Set your analysis window, depth, and specific parameters to tailor the dashboard to your needs."
     >
       {!repo ? (
         <div className="mb-4 border border-border bg-card p-4 text-sm text-muted-foreground">

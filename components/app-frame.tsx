@@ -18,7 +18,15 @@ const steps = [
   { id: "dashboard", label: "Dashboard", href: "#" },
 ] as const;
 
-export function AppFrame({ children, eyebrow, title, description, activeStep, hideSteps }: AppFrameProps) {
+export function AppFrame({
+  children,
+  eyebrow,
+  title,
+  description,
+  activeStep,
+  hideSteps,
+  hideHeader = false,
+}: AppFrameProps & { hideHeader?: boolean }) {
   return (
     <main className="grid-paper min-h-screen bg-background text-foreground">
       <div className="mx-auto w-full max-w-7xl px-5 py-5 sm:px-8 lg:px-10">
@@ -53,19 +61,21 @@ export function AppFrame({ children, eyebrow, title, description, activeStep, hi
           </div>
         </nav>
 
-        <header className="mb-4 grid gap-3 border border-foreground bg-card p-5 sm:p-6 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div>
-            {eyebrow ? (
-              <p className="mb-3 inline-flex border border-border bg-muted px-3 py-2 text-xs font-bold uppercase text-muted-foreground">
-                {eyebrow}
-              </p>
-            ) : null}
-            <h1 className="max-w-5xl text-4xl font-black uppercase leading-[0.9] tracking-[-0.11em] sm:text-6xl">
-              {title}
-            </h1>
-          </div>
-          {description ? <p className="max-w-xl text-sm leading-6 text-muted-foreground">{description}</p> : null}
-        </header>
+        {!hideHeader && (
+          <header className="mb-4 grid gap-3 border border-foreground bg-card p-5 sm:p-6 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
+              {eyebrow ? (
+                <p className="mb-3 inline-flex border border-border bg-muted px-3 py-2 text-xs font-bold uppercase text-muted-foreground">
+                  {eyebrow}
+                </p>
+              ) : null}
+              <h1 className="max-w-5xl text-4xl font-black uppercase leading-[0.9] tracking-[-0.11em] sm:text-6xl">
+                {title}
+              </h1>
+            </div>
+            {description ? <p className="max-w-xl text-sm leading-6 text-muted-foreground">{description}</p> : null}
+          </header>
+        )}
 
         {children}
       </div>

@@ -5,9 +5,9 @@ export default function RepositoryPage() {
   return (
     <AppFrame
       activeStep="repository"
-      eyebrow="page 1"
-      title="Repository"
-      description="Paste a GitHub repository URL, verify access, and prepare the workspace scan."
+      eyebrow="Step 1: Setup"
+      title="Connect Repository"
+      description="Enter a GitHub repository URL to connect your project and begin the analysis process."
     >
       <RepositoryPageClient />
     </AppFrame>

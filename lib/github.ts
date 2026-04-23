@@ -184,7 +184,10 @@ export async function getRepositoryPreview(repoInput: string): Promise<Repositor
   return toRepositoryPreview(repository);
 }
 
-export async function analyzeRepository(input: AnalysisRequest): Promise<RepositoryAnalysis> {
+export async function analyzeRepository(
+  input: AnalysisRequest,
+  onProgress?: (stage: string, progress: number) => void,
+): Promise<RepositoryAnalysis> {
   const request = normalizeAnalysisRequest(input);
   const parsed = parseRepositoryInput(request.repo);
   const token = process.env.GITHUB_TOKEN?.trim() || undefined;
@@ -199,6 +202,7 @@ export async function analyzeRepository(input: AnalysisRequest): Promise<Reposit
     );
   }
 
+  onProgress?.("Fetching repository metadata", 10);
   const repo = toRepositoryPreview(
     await githubFetch<GitHubRepository>(
       `/repos/${encodeURIComponent(parsed.owner)}/${encodeURIComponent(parsed.repo)}`,
@@ -206,9 +210,12 @@ export async function analyzeRepository(input: AnalysisRequest): Promise<Reposit
     ),
   );
 
+  onProgress?.("Retrieving commit and PR lists", 25);
   const branch = request.branch || repo.defaultBranch;
-  const commits = await fetchCommitPages(parsed.owner, parsed.repo, branch, since, limit.pages, options);
-  const pullRequests = await fetchPullRequestPages(parsed.owner, parsed.repo, limit.pages, options);
+  const [commits, pullRequests] = await Promise.all([
+    fetchCommitPages(parsed.owner, parsed.repo, branch, since, limit.pages, options),
+    fetchPullRequestPages(parsed.owner, parsed.repo, limit.pages, options),
+  ]);
 
   const contributors = new Map<string, ContributorAccumulator>();
   const timeline = new Map<string, TimelinePoint>();
@@ -222,26 +229,6 @@ export async function analyzeRepository(input: AnalysisRequest): Promise<Reposit
     );
   }
 
-  const commitDetails = await mapLimit(
-    commits.slice(0, commitDetailLimit),
-    concurrency(),
-    async (commit) => {
-      try {
-        return await githubFetch<GitHubCommitDetail>(
-          `/repos/${encodeURIComponent(parsed.owner)}/${encodeURIComponent(parsed.repo)}/commits/${commit.sha}`,
-          options,
-        );
-      } catch {
-        warnings.push(`Skipped commit detail ${commit.sha.slice(0, 7)} because GitHub did not return it.`);
-        return commit;
-      }
-    },
-  );
-
-  for (const commit of commitDetails) {
-    recordCommit(commit, contributors, timeline);
-  }
-
   const pullRequestDetailLimit = Math.min(pullRequests.length, limit.pullRequestDetails);
   if (pullRequestDetailLimit < pullRequests.length) {
     warnings.push(
@@ -249,28 +236,52 @@ export async function analyzeRepository(input: AnalysisRequest): Promise<Reposit
     );
   }
 
-  const pullRequestDetails = await mapLimit(
-    pullRequests.slice(0, pullRequestDetailLimit),
-    concurrency(),
-    async (pullRequest) => {
-      try {
-        const detail = await githubFetch<GitHubPullRequestDetail>(
-          `/repos/${encodeURIComponent(parsed.owner)}/${encodeURIComponent(parsed.repo)}/pulls/${pullRequest.number}`,
-          options,
-        );
+  onProgress?.(`Analyzing detailed activity (Parallelism: ${concurrency()}x)`, 45);
+  const [commitDetails, pullRequestDetails] = await Promise.all([
+    mapLimit(
+      commits.slice(0, commitDetailLimit),
+      concurrency(),
+      async (commit) => {
+        try {
+          return await githubFetch<GitHubCommitDetail>(
+            `/repos/${encodeURIComponent(parsed.owner)}/${encodeURIComponent(parsed.repo)}/commits/${commit.sha}`,
+            options,
+          );
+        } catch {
+          warnings.push(`Skipped commit detail ${commit.sha.slice(0, 7)} because GitHub did not return it.`);
+          return commit;
+        }
+      },
+    ),
+    mapLimit(
+      pullRequests.slice(0, pullRequestDetailLimit),
+      concurrency(),
+      async (pullRequest) => {
+        try {
+          const [detail, reviews] = await Promise.all([
+            githubFetch<GitHubPullRequestDetail>(
+              `/repos/${encodeURIComponent(parsed.owner)}/${encodeURIComponent(parsed.repo)}/pulls/${pullRequest.number}`,
+              options,
+            ),
+            githubFetch<GitHubReview[]>(
+              `/repos/${encodeURIComponent(parsed.owner)}/${encodeURIComponent(parsed.repo)}/pulls/${pullRequest.number}/reviews?per_page=100`,
+              options,
+            ),
+          ]);
 
-        const reviews = await githubFetch<GitHubReview[]>(
-          `/repos/${encodeURIComponent(parsed.owner)}/${encodeURIComponent(parsed.repo)}/pulls/${pullRequest.number}/reviews?per_page=100`,
-          options,
-        );
+          return { detail, reviews };
+        } catch {
+          warnings.push(`Skipped PR #${pullRequest.number} details because GitHub did not return them.`);
+          return { detail: pullRequest as GitHubPullRequestDetail, reviews: [] };
+        }
+      },
+    ),
+  ]);
 
-        return { detail, reviews };
-      } catch {
-        warnings.push(`Skipped PR #${pullRequest.number} details because GitHub did not return them.`);
-        return { detail: pullRequest as GitHubPullRequestDetail, reviews: [] };
-      }
-    },
-  );
+  onProgress?.("Calculating contribution scores", 75);
+  for (const commit of commitDetails) {
+    recordCommit(commit, contributors, timeline);
+  }
 
   for (const { detail, reviews } of pullRequestDetails) {
     pullRequestSummaries.push(recordPullRequest(detail, contributors, timeline));
@@ -280,6 +291,8 @@ export async function analyzeRepository(input: AnalysisRequest): Promise<Reposit
       recordReview(review, contributors, timeline);
     }
   }
+
+  onProgress?.("Finalizing analytics", 90);
 
   const contributorList = finalizeContributors(contributors, request.includeBots);
   const files = contributorList
@@ -783,7 +796,10 @@ async function mapLimit<T, R>(items: T[], limit: number, mapper: (item: T) => Pr
 }
 
 function concurrency() {
-  return clampNumber(Number(process.env.GITHUB_SCAN_CONCURRENCY ?? 4), 1, 8);
+  const token = process.env.GITHUB_TOKEN?.trim();
+  const defaultConcurrency = token ? 12 : 4;
+  const maxConcurrency = token ? 24 : 8;
+  return clampNumber(Number(process.env.GITHUB_SCAN_CONCURRENCY ?? defaultConcurrency), 1, maxConcurrency);
 }
 
 function isScanDepth(value: unknown): value is ScanDepth {

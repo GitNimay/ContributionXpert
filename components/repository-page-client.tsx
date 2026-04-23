@@ -110,31 +110,38 @@ export function RepositoryPageClient() {
       </section>
 
       <aside className="border border-border bg-card p-5">
-        <h2 className="text-lg font-black uppercase tracking-[-0.06em]">Credentials</h2>
-        <div className="mt-4 space-y-3 text-sm leading-6 text-muted-foreground">
-          <p>
-            Public repositories can scan immediately. For private repos and stronger rate limits, add a
-            server-only token in <code className="bg-muted px-1">.env.local</code>.
-          </p>
-          <div className="border border-border bg-muted p-3 text-xs uppercase text-foreground">
-            <p>GITHUB_TOKEN=github_pat_...</p>
-            <p>GITHUB_WEBHOOK_SECRET=long_random_secret</p>
+        <h2 className="text-lg font-black uppercase tracking-[-0.06em]">Platform Capabilities</h2>
+        <div className="mt-4 space-y-4">
+          <div className="border border-border bg-muted p-4 transition-colors hover:border-foreground">
+             <div className="flex items-center gap-2 text-xs font-black uppercase text-foreground mb-1">
+               <SearchCode className="w-4 h-4 text-primary" /> Intelligence
+             </div>
+             <p className="text-xs text-muted-foreground">
+               Our engine parses commits, line changes, and PR activity to calculate impact scores across your entire history.
+             </p>
           </div>
-          <p>
-            The token never goes to the browser. Scans run through Next route handlers so the frontend only
-            receives computed analytics.
-          </p>
+          <div className="border border-border bg-muted p-4 transition-colors hover:border-foreground">
+             <div className="flex items-center gap-2 text-xs font-black uppercase text-foreground mb-1">
+               <GitBranch className="w-4 h-4 text-primary" /> Multi-Branch Support
+             </div>
+             <p className="text-xs text-muted-foreground">
+               Analyze the main branch or drill down into specific feature branches to see where the heavy lifting is happening.
+             </p>
+          </div>
+          <div className="border border-border bg-muted p-4 transition-colors hover:border-foreground">
+             <div className="flex items-center gap-2 text-xs font-black uppercase text-foreground mb-1">
+               <Star className="w-4 h-4 text-primary" /> Engagement
+             </div>
+             <p className="text-xs text-muted-foreground">
+               Celebrate your contributors with shared reports that highlight consistent cadence and review quality.
+             </p>
+          </div>
         </div>
-        <div className="mt-5 border border-border bg-background p-4">
-          <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase">
-            <GitBranch className="h-4 w-4" /> What gets scanned
-          </div>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>Commits, additions, deletions, and changed files.</li>
-            <li>Pull requests opened and merged.</li>
-            <li>Reviews, approvals, and review bodies.</li>
-            <li>Contributor identities with bot filtering.</li>
-          </ul>
+        <div className="mt-6 border border-border bg-background p-4">
+          <p className="text-[10px] font-bold uppercase text-muted-foreground">Private Scanning</p>
+          <p className="mt-2 text-xs leading-5 text-muted-foreground">
+            For private repositories, ensure a valid <code className="bg-muted px-1">GITHUB_TOKEN</code> is configured in the backend environment.
+          </p>
         </div>
       </aside>
     </div>

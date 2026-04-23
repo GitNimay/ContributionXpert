@@ -38,10 +38,10 @@ export default function Home() {
         <div className="grid gap-8 py-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="enter-up">
             <p className="mb-5 inline-flex border border-border bg-card px-3 py-2 text-xs font-bold uppercase text-muted-foreground">
-              GitHub contribution intelligence
+              Engineering Performance Analytics
             </p>
             <h1 className="max-w-5xl text-5xl font-black uppercase leading-[0.9] tracking-[-0.12em] sm:text-7xl lg:text-8xl">
-              See who actually moved the repo.
+              Reveal the true impact in your code.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
               Scan commits, pull requests, reviews, changed files, and activity cadence to build
@@ -108,10 +108,10 @@ export default function Home() {
         </div>
 
         <div className="grid gap-3 border border-border bg-card p-3 text-xs uppercase text-muted-foreground md:grid-cols-4">
-          <span>01 repository intake</span>
-          <span>02 workspace rules</span>
-          <span>03 onboarding scan</span>
-          <span>04 shareable report</span>
+          <span>01 Connect Repo</span>
+          <span>02 Configure Rules</span>
+          <span>03 Real-time Scan</span>
+          <span>04 Share Insights</span>
         </div>
       </section>
     </main>

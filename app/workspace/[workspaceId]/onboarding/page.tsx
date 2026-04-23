@@ -29,9 +29,9 @@ export default async function OnboardingPage({ params, searchParams }: Onboardin
   return (
     <AppFrame
       activeStep="onboarding"
-      eyebrow="page 3"
-      title="Onboarding"
-      description="The workspace is now scanning GitHub and turning raw repository activity into contribution intelligence."
+      eyebrow="Step 3: Processing"
+      title="Analyzing Repository"
+      description="We are currently fetching and analyzing data from GitHub to generate your real-time contribution insights."
     >
       <OnboardingClient workspaceId={workspaceId} workspaceName={workspaceName} config={config} />
     </AppFrame>

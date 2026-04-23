@@ -1,10 +1,11 @@
 "use client";
 
-import { AlertTriangle, Copy, Loader2, RefreshCw, Share2 } from "lucide-react";
+import { AlertTriangle, ArrowUpRight, Copy, Loader2, RefreshCw, Share2, Star } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
 import { AnalyticsDashboard } from "@/components/analytics-dashboard";
 import { encodeSharePayload, shareUrlFor } from "@/lib/share";
 import type { AnalysisRequest, RepositoryAnalysis, SharePayload } from "@/lib/types";
+import { compactNumber } from "@/lib/format";
 
 type DashboardLoaderProps = {
   config: AnalysisRequest;
@@ -44,9 +45,14 @@ export function DashboardLoader({
   const [copied, setCopied] = useState(false);
   const cacheKey = workspaceId ? `repo-signal:${workspaceId}` : null;
 
+  const [currentStage, setCurrentStage] = useState("Initializing scan...");
+  const [progress, setProgress] = useState(0);
+
   async function runScan() {
     setLoading(true);
     setError(null);
+    setProgress(0);
+    setCurrentStage("Connecting...");
 
     try {
       const response = await fetch("/api/analyze", {
@@ -54,15 +60,45 @@ export function DashboardLoader({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(config),
       });
-      const data = (await response.json()) as AnalysisResponse;
 
-      if (!response.ok || !data.analysis) {
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
         throw new Error(data.error ?? "Scan failed.");
       }
 
-      setAnalysis(data.analysis);
-      if (cacheKey) {
-        window.localStorage.setItem(cacheKey, JSON.stringify(data.analysis));
+      if (!response.body) throw new Error("No response body");
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          try {
+            const data = JSON.parse(line);
+            if (data.type === "progress") {
+              setProgress(data.progress);
+              setCurrentStage(data.stage);
+            } else if (data.type === "complete") {
+              setAnalysis(data.analysis);
+              if (cacheKey) {
+                window.localStorage.setItem(cacheKey, JSON.stringify(data.analysis));
+              }
+            } else if (data.type === "error") {
+              throw new Error(data.message);
+            }
+          } catch (e) {
+            console.error("Failed to parse stream line", e);
+          }
+        }
       }
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Scan failed.");
@@ -129,11 +165,22 @@ export function DashboardLoader({
   if (loading && !analysis) {
     return (
       <div className="grid min-h-[420px] place-items-center border border-foreground bg-card p-8 hard-shadow">
-        <div className="text-center">
-          <Loader2 className="mx-auto h-8 w-8 animate-spin" />
+        <div className="text-center w-full max-w-md">
+          <div className="mb-8 flex justify-center">
+            <RefreshCw className="h-8 w-8 animate-spin text-foreground" />
+          </div>
           <h2 className="mt-5 text-2xl font-black uppercase tracking-[-0.08em]">Scanning repository</h2>
-          <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">
-            Fetching commits, PRs, reviews, files, and contributor identities from GitHub.
+          <p className="mt-3 mb-6 h-6 text-sm leading-6 text-muted-foreground transition-all duration-300">
+            {currentStage}
+          </p>
+          <div className="h-4 w-full border border-border bg-muted overflow-hidden">
+            <div 
+              className="h-full bg-foreground transition-all duration-300 ease-out"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <p className="mt-2 text-right text-xs font-bold uppercase text-muted-foreground">
+            {Math.round(progress)}%
           </p>
         </div>
       </div>
@@ -153,6 +200,31 @@ export function DashboardLoader({
 
   return (
     <div className="space-y-4">
+      {mode === "share" && analysis && (
+        <div className="mb-6 flex flex-col gap-4 border border-foreground bg-card p-6 hard-shadow sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase text-muted-foreground">Public Repository Analytics</p>
+            <h1 className="mt-2 text-4xl font-black uppercase leading-none tracking-[-0.08em] sm:text-5xl">
+              {analysis.repo.fullName}
+            </h1>
+            <a
+              href={analysis.repo.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-1 text-xs font-bold uppercase text-muted-foreground transition hover:text-foreground underline underline-offset-4"
+            >
+              View on GitHub <ArrowUpRight className="h-3 w-3" />
+            </a>
+          </div>
+          <div className="flex items-center gap-3 border border-border bg-muted px-5 py-4">
+            <Star className="h-5 w-5 text-yellow-500" />
+            <div className="flex flex-col leading-none">
+              <span className="text-2xl font-black uppercase tracking-tight">{compactNumber(analysis.repo.stars)}</span>
+              <span className="text-[10px] font-bold uppercase text-muted-foreground">Total Stars</span>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="flex flex-col gap-3 border border-border bg-card p-3 md:flex-row md:items-center md:justify-between">
         <div>
           <p className="text-xs font-bold uppercase text-muted-foreground">
