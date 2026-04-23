@@ -32,6 +32,8 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  Brush,
+  Legend,
 } from "recharts";
 import { compactNumber, integer, shortDate, timeAgo } from "@/lib/format";
 import type { ContributorStats, RepositoryAnalysis } from "@/lib/types";
@@ -246,9 +248,11 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
                   <XAxis dataKey="label" minTickGap={28} tickLine={false} axisLine={false} stroke="var(--muted-foreground)" />
                   <YAxis tickLine={false} axisLine={false} width={44} stroke="var(--muted-foreground)" />
                   <Tooltip content={<ChartTooltip />} />
+                  <Legend verticalAlign="top" height={36} wrapperStyle={{ fontSize: "12px", textTransform: "uppercase", fontWeight: "bold" }} iconType="circle" />
                   <Area type="monotone" dataKey="commits" stackId="1" stroke="var(--chart-1)" fill="var(--chart-1)" />
                   <Area type="monotone" dataKey="pullRequests" stackId="1" stroke="var(--chart-2)" fill="var(--chart-2)" />
                   <Area type="monotone" dataKey="reviews" stackId="1" stroke="var(--chart-3)" fill="url(#hatch)" />
+                  <Brush dataKey="label" height={25} stroke="var(--muted-foreground)" fill="var(--background)" travellerWidth={10} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -260,14 +264,29 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
 }
 
 function ContributorRow({ contributor }: { contributor: ContributorStats }) {
+  const scoreTooltip = `Score Breakdown:
+• Code: ${integer(contributor.scoreBreakdown.code)}
+• PRs: ${integer(contributor.scoreBreakdown.pullRequests)}
+• Reviews: ${integer(contributor.scoreBreakdown.reviews)}
+• Cadence: ${integer(contributor.scoreBreakdown.consistency)}`;
+
+  const ProfileLink = ({ children, className }: { children: React.ReactNode; className?: string }) => {
+    if (!contributor.profileUrl) return <div className={className}>{children}</div>;
+    return (
+      <a href={contributor.profileUrl} target="_blank" rel="noreferrer" className={`hover:opacity-75 transition-opacity ${className || ""}`}>
+        {children}
+      </a>
+    );
+  };
+
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center gap-3 bg-background p-3">
+    <div className="flex flex-col sm:flex-row sm:items-center gap-3 bg-background p-3 transition hover:bg-muted/50">
       <div className="flex items-start sm:items-center gap-3 w-full sm:w-auto">
         <div className="shrink-0 grid h-9 w-9 place-items-center border border-border bg-muted text-sm font-black">
           {String(contributor.rank).padStart(2, "0")}
         </div>
         <div className="flex-1 min-w-0 sm:hidden flex justify-between items-center">
-           <div className="flex items-center gap-2">
+           <ProfileLink className="flex items-center gap-2">
             {contributor.avatarUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -281,15 +300,15 @@ function ContributorRow({ contributor }: { contributor: ContributorStats }) {
             {contributor.isBot ? (
               <span className="border border-border bg-muted px-1.5 py-0.5 text-[10px] font-bold uppercase text-muted-foreground">bot</span>
             ) : null}
-          </div>
-          <div className="text-right">
-            <p className="text-lg font-black tracking-[-0.06em] leading-none">{integer(contributor.points)}</p>
+          </ProfileLink>
+          <div className="text-right" title={scoreTooltip}>
+            <p className="text-lg font-black tracking-[-0.06em] leading-none cursor-help">{integer(contributor.points)}</p>
           </div>
         </div>
       </div>
       
       <div className="flex-1 min-w-0">
-        <div className="hidden sm:flex flex-wrap items-center gap-2">
+        <ProfileLink className="hidden sm:flex flex-wrap items-center gap-2">
           {contributor.avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -303,7 +322,7 @@ function ContributorRow({ contributor }: { contributor: ContributorStats }) {
           {contributor.isBot ? (
             <span className="border border-border bg-muted px-1.5 py-0.5 text-[10px] font-bold uppercase text-muted-foreground">bot</span>
           ) : null}
-        </div>
+        </ProfileLink>
         <div className="mt-2 sm:mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
           <span><strong className="text-foreground">{integer(contributor.commits)}</strong> commits</span>
           <span><strong className="text-foreground">{integer(contributor.pullRequestsMerged)}</strong> merged PRs</span>
@@ -311,8 +330,8 @@ function ContributorRow({ contributor }: { contributor: ContributorStats }) {
           <span className="uppercase">{timeAgo(contributor.lastActiveAt)}</span>
         </div>
       </div>
-      <div className="hidden sm:block text-right">
-        <p className="text-xl font-black tracking-[-0.06em] leading-none">{integer(contributor.points)}</p>
+      <div className="hidden sm:block text-right" title={scoreTooltip}>
+        <p className="text-xl font-black tracking-[-0.06em] leading-none cursor-help">{integer(contributor.points)}</p>
         <p className="text-[10px] font-bold uppercase text-muted-foreground mt-0.5">points</p>
       </div>
     </div>
