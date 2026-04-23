@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RepoSignal
 
-## Getting Started
+Interactive GitHub contribution dashboard for scanning a repository, creating a workspace, onboarding the scan, and sharing a read-only analytics board.
 
-First, run the development server:
+## Routes
+
+- `/repository` validates a GitHub repository URL or `owner/repo`.
+- `/workspace/new` creates scan settings for the workspace.
+- `/workspace/[workspaceId]/onboarding` runs the onboarding flow and scan.
+- `/workspace/[workspaceId]/dashboard` shows the live workspace dashboard.
+- `/share/[shareId]` shows a public read-only dashboard using encoded scan settings.
+
+## Credentials
+
+Copy `.env.example` to `.env.local` and fill what you need.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+GITHUB_TOKEN=
+GITHUB_APP_ID=
+GITHUB_APP_PRIVATE_KEY=
+GITHUB_WEBHOOK_SECRET=
+GITHUB_SCAN_MAX_PAGES=2
+GITHUB_SCAN_CONCURRENCY=4
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Public repositories can scan without `GITHUB_TOKEN`, but GitHub's anonymous rate limit is low. Add a token for private repositories, larger scans, and more accurate PR/commit detail.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Recommended GitHub permissions:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `Contents: read`
+- `Pull requests: read`
+- `Metadata: read`
+- `Webhooks: write` only if you want automatic webhook registration later
 
-## Learn More
+## Development
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm install
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open `http://localhost:3000`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Verification
 
-## Deploy on Vercel
+```bash
+npm run lint
+npm run build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Notes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The current implementation performs live GitHub REST scans through server route handlers, computes contributor scoring, and generates shareable URLs without exposing credentials to the browser. The webhook endpoint at `/api/webhooks/github` verifies GitHub signatures and is ready for a production queue or database-backed incremental refresh.
