@@ -8,7 +8,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RepoSignal | Real-time Contribution Dashboard",
+  title: "ContributionXpert | Real-time Contribution Dashboard",
   description:
     "Scan GitHub repositories and generate interactive contributor leaderboards, scoring, and shareable analytics.",
 };

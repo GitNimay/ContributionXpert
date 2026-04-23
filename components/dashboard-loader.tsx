@@ -1,7 +1,7 @@
 "use client";
 
 import { AlertTriangle, Copy, Loader2, RefreshCw, Share2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { AnalyticsDashboard } from "@/components/analytics-dashboard";
 import { encodeSharePayload, shareUrlFor } from "@/lib/share";
 import type { AnalysisRequest, RepositoryAnalysis, SharePayload } from "@/lib/types";
@@ -80,15 +80,48 @@ export function DashboardLoader({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shareId, workspaceId]);
 
-  const payload: SharePayload = {
+  const payload: SharePayload = useMemo(() => ({
     ...config,
     createdAt: new Date().toISOString(),
     workspaceName,
-  };
-  const shareUrl = shareUrlFor(payload);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [JSON.stringify(config), workspaceName]);
+
+  const [displayShareUrl, setDisplayShareUrl] = useState<string>("");
+
+  useEffect(() => {
+    const longUrl = shareUrlFor(payload);
+    setDisplayShareUrl(longUrl);
+
+    let isMounted = true;
+    async function shorten() {
+      try {
+        const res = await fetch("/api/share", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (res.ok && isMounted) {
+          const data = await res.json();
+          if (data.id) {
+            const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+            setDisplayShareUrl(`${baseUrl}/share/${data.id}`);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to shorten", e);
+      }
+    }
+    
+    void shorten();
+    
+    return () => {
+      isMounted = false;
+    };
+  }, [payload]);
 
   async function copyShareUrl() {
-    await navigator.clipboard.writeText(shareUrl);
+    await navigator.clipboard.writeText(displayShareUrl || shareUrlFor(payload));
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1800);
   }
@@ -156,7 +189,7 @@ export function DashboardLoader({
         </div>
       ) : null}
 
-      {analysis ? <AnalyticsDashboard analysis={analysis} shareUrl={shareUrl} /> : null}
+      {analysis ? <AnalyticsDashboard analysis={analysis} shareUrl={displayShareUrl || shareUrlFor(payload)} /> : null}
     </div>
   );
 }
