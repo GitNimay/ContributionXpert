@@ -85,21 +85,24 @@ export function DashboardLoader({
 
         for (const line of lines) {
           if (!line.trim()) continue;
+          let data;
           try {
-            const data = JSON.parse(line);
-            if (data.type === "progress") {
-              setProgress(data.progress);
-              setCurrentStage(data.stage);
-            } else if (data.type === "complete") {
-              setAnalysis(data.analysis);
-              if (cacheKey) {
-                window.localStorage.setItem(cacheKey, JSON.stringify(data.analysis));
-              }
-            } else if (data.type === "error") {
-              throw new Error(data.message);
-            }
+            data = JSON.parse(line);
           } catch (e) {
             console.error("Failed to parse stream line", e);
+            continue;
+          }
+          
+          if (data.type === "progress") {
+            setProgress(data.progress);
+            setCurrentStage(data.stage);
+          } else if (data.type === "complete") {
+            setAnalysis(data.analysis);
+            if (cacheKey) {
+              window.localStorage.setItem(cacheKey, JSON.stringify(data.analysis));
+            }
+          } else if (data.type === "error") {
+            throw new Error(data.message);
           }
         }
       }
