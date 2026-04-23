@@ -18,7 +18,7 @@ const scanModes: { id: ScanDepth; label: string; copy: string }[] = [
 export function WorkspaceForm({ initialRepo }: WorkspaceFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [workspaceName, setWorkspaceName] = useState("Contribution Room");
+  const [workspaceName, setWorkspaceName] = useState("GitKiwi Workspace");
   const [repo, setRepo] = useState(initialRepo);
   const [branch, setBranch] = useState("");
   const [rangeDays, setRangeDays] = useState("90");
@@ -31,7 +31,7 @@ export function WorkspaceForm({ initialRepo }: WorkspaceFormProps) {
     const workspaceId = crypto.randomUUID();
     const params = new URLSearchParams({
       repo: repo.trim(),
-      workspaceName: workspaceName.trim() || "Contribution Room",
+      workspaceName: workspaceName.trim() || "GitKiwi Workspace",
       rangeDays,
       scanDepth,
       includeBots: String(includeBots),

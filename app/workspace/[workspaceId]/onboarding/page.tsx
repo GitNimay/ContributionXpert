@@ -24,7 +24,7 @@ export default async function OnboardingPage({ params, searchParams }: Onboardin
     scanDepth: query.scanDepth,
     includeBots: query.includeBots === "true",
   });
-  const workspaceName = query.workspaceName || "Contribution Room";
+  const workspaceName = query.workspaceName || "GitKiwi Workspace";
 
   return (
     <AppFrame

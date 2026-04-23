@@ -32,8 +32,8 @@ export function AppFrame({
       <div className="mx-auto w-full max-w-7xl px-5 py-5 sm:px-8 lg:px-10">
         <nav className="mb-4 flex flex-col gap-3 border border-border bg-card p-3 md:flex-row md:items-center md:justify-between">
           <Link href="/" className="flex items-center gap-2 text-lg font-black uppercase tracking-[-0.1em]">
-            <img src="/logo.png" alt="ContributionXpert Logo" className="h-6 w-6 object-contain" />
-            ContributionXpert
+            <img src="/logo.png" alt="GitKiwi Logo" className="h-6 w-6 object-contain" />
+            GitKiwi
           </Link>
           <div className="flex items-center gap-4">
             {!hideSteps && (

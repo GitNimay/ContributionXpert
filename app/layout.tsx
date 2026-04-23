@@ -8,7 +8,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ContributionXpert | Real-time Contribution Dashboard",
+  title: "GitKiwi | Real-time Contribution Dashboard",
   description:
     "Scan GitHub repositories and generate interactive contributor leaderboards, scoring, and shareable analytics.",
   icons: {

@@ -23,7 +23,7 @@ type AnalysisResponse = {
 export function DashboardLoader({
   config,
   workspaceId,
-  workspaceName = "Contribution Room",
+  workspaceName = "GitKiwi Workspace",
   shareId,
   mode = "workspace",
 }: DashboardLoaderProps) {

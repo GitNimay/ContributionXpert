@@ -7,8 +7,8 @@ export default function Home() {
       <section className="mx-auto flex min-h-screen w-full max-w-7xl flex-col justify-between px-5 py-6 sm:px-8 lg:px-10">
         <nav className="flex items-center justify-between border border-border bg-card px-4 py-3">
           <Link href="/" className="flex items-center gap-2 font-bold uppercase tracking-[-0.08em]">
-            <img src="/logo.png" alt="ContributionXpert Logo" className="h-6 w-6 object-contain" />
-            ContributionXpert
+            <img src="/logo.png" alt="GitKiwi Logo" className="h-6 w-6 object-contain" />
+            GitKiwi
           </Link>
           <div className="flex items-center gap-2">
             <Link
