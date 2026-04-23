@@ -94,35 +94,40 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
     <div className="space-y-3">
       <section className="grid gap-2 grid-cols-2 lg:grid-cols-4">
         <StatCard
-          icon={<Award className="h-4 w-4 md:h-5 md:w-5" />}
+          icon={<Award className="h-4 w-4 md:h-5 md:w-5 text-purple-500" />}
           label="Contributors"
           value={integer(analysis.totals.contributors)}
           detail={`${compactNumber(analysis.totals.points)} total points`}
+          colorClass="hard-shadow-purple"
         />
         <StatCard
-          icon={<GitCommitHorizontal className="h-4 w-4 md:h-5 md:w-5" />}
+          icon={<GitCommitHorizontal className="h-4 w-4 md:h-5 md:w-5 text-blue-500" />}
           label="Commits"
           value={integer(analysis.totals.commits)}
           detail={`${compactNumber(analysis.totals.additions)} additions`}
+          colorClass="hard-shadow-blue"
         />
         <StatCard
-          icon={<GitPullRequest className="h-4 w-4 md:h-5 md:w-5" />}
+          icon={<GitPullRequest className="h-4 w-4 md:h-5 md:w-5 text-green-500" />}
           label="Merged PRs"
           value={integer(analysis.totals.pullRequestsMerged)}
           detail={`${integer(analysis.totals.pullRequestsOpened)} opened`}
+          colorClass="hard-shadow-green"
         />
         <StatCard
-          icon={<MessageSquareText className="h-4 w-4 md:h-5 md:w-5" />}
+          icon={<MessageSquareText className="h-4 w-4 md:h-5 md:w-5 text-orange-500" />}
           label="Reviews"
           value={integer(analysis.totals.reviews)}
           detail={`${analysis.scan.authenticated ? "token scan" : "public scan"}`}
+          colorClass="hard-shadow-orange"
         />
       </section>
 
       <section className="grid gap-3 items-start lg:grid-cols-[1fr_0.85fr]">
         {/* Left Column */}
         <div className="space-y-3">
-          <div className="border border-foreground bg-card p-4 hard-shadow">
+          <div className="border border-foreground bg-card p-4 hard-shadow relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-purple-500 via-blue-500 to-green-500 opacity-70" />
             <SectionTitle icon={<Award className="h-5 w-5" />} title="Leaderboard details" />
             <div className="mt-3 divide-y divide-border border border-border max-h-[500px] overflow-y-auto">
               {analysis.contributors.map((contributor) => (
@@ -201,9 +206,10 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
 
         {/* Right Column */}
         <div className="space-y-3">
-          <div className="border border-border bg-card p-4">
+          <div className="border border-border bg-card p-4 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-blue-400 to-purple-400 opacity-50" />
             <SectionTitle icon={<Share2 className="h-5 w-5" />} title="Shareable report" />
-            <p className="mt-3 break-all border border-border bg-muted p-3 text-xs text-muted-foreground">
+            <p className="mt-3 break-all border border-border bg-muted p-3 text-xs text-muted-foreground font-mono">
               {shareUrl}
             </p>
           </div>
@@ -245,7 +251,8 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
             </div>
           </div>
 
-          <div className="border border-border bg-card p-4">
+          <div className="border border-border bg-card p-4 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-orange-400 to-red-400 opacity-50" />
             <SectionTitle icon={<Activity className="h-5 w-5" />} title="Activity over time" />
             <div className="mt-3 h-[260px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -311,7 +318,7 @@ function ContributorRow({ contributor }: { contributor: ContributorStats }) {
               <img
                 src={contributor.avatarUrl}
                 alt=""
-                className="h-6 w-6 border border-border grayscale"
+                className="h-6 w-6 border border-border"
                 referrerPolicy="no-referrer"
               />
             ) : null}
@@ -333,7 +340,7 @@ function ContributorRow({ contributor }: { contributor: ContributorStats }) {
             <img
               src={contributor.avatarUrl}
               alt=""
-              className="h-6 w-6 border border-border grayscale"
+              className="h-6 w-6 border border-border"
               referrerPolicy="no-referrer"
             />
           ) : null}
@@ -376,14 +383,16 @@ function StatCard({
   label,
   value,
   detail,
+  colorClass = "hard-shadow",
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
   detail: string;
+  colorClass?: string;
 }) {
   return (
-    <div className="border border-border bg-card p-3 md:p-4">
+    <div className={`border border-border bg-card p-3 md:p-4 transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] ${colorClass}`}>
       <div className="mb-2 md:mb-4 flex items-center justify-between text-muted-foreground">
         {icon}
         <span className="text-[10px] md:text-xs font-bold uppercase">{label}</span>
@@ -398,7 +407,7 @@ function SectionTitle({ icon, title }: { icon: React.ReactNode; title: string })
   return (
     <div className="flex items-center justify-between gap-3 border-b border-border pb-3">
       <h2 className="flex items-center gap-2 text-sm font-black uppercase tracking-[-0.03em]">
-        {icon}
+        <span className="text-primary/70">{icon}</span>
         {title}
       </h2>
     </div>

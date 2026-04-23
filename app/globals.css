@@ -162,8 +162,44 @@ img {
   box-shadow: 6px 6px 0 var(--foreground);
 }
 
+.hard-shadow-primary {
+  box-shadow: 6px 6px 0 var(--chart-1);
+}
+
+.hard-shadow-purple {
+  box-shadow: 4px 4px 0 rgba(139, 92, 246, 0.5);
+}
+
+.hard-shadow-blue {
+  box-shadow: 4px 4px 0 rgba(59, 130, 246, 0.5);
+}
+
+.hard-shadow-green {
+  box-shadow: 4px 4px 0 rgba(16, 185, 129, 0.5);
+}
+
+.hard-shadow-orange {
+  box-shadow: 4px 4px 0 rgba(245, 158, 11, 0.5);
+}
+
 .dark .hard-shadow {
   box-shadow: 6px 6px 0 #525252;
+}
+
+.dark .hard-shadow-purple {
+  box-shadow: 4px 4px 0 rgba(139, 92, 246, 0.3);
+}
+
+.dark .hard-shadow-blue {
+  box-shadow: 4px 4px 0 rgba(59, 130, 246, 0.3);
+}
+
+.dark .hard-shadow-green {
+  box-shadow: 4px 4px 0 rgba(16, 185, 129, 0.3);
+}
+
+.dark .hard-shadow-orange {
+  box-shadow: 4px 4px 0 rgba(245, 158, 11, 0.3);
 }
 
 /* Recharts dark‑mode overrides */
