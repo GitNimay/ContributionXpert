@@ -375,14 +375,21 @@ async function fetchPullRequestPages(
   pages: number,
   options: GitHubRequestOptions,
 ) {
-  return fetchPages<GitHubPullRequestListItem>(
-    (page) =>
-      `/repos/${encodeURIComponent(owner)}/${encodeURIComponent(
-        repo,
-      )}/pulls?state=all&sort=updated&direction=desc&per_page=100&page=${page}`,
-    pages,
-    options,
-  );
+  try {
+    return await fetchPages<GitHubPullRequestListItem>(
+      (page) =>
+        `/repos/${encodeURIComponent(owner)}/${encodeURIComponent(
+          repo,
+        )}/pulls?state=all&sort=updated&direction=desc&per_page=100&page=${page}`,
+      pages,
+      options,
+    );
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("Not Found")) {
+      return [];
+    }
+    throw error;
+  }
 }
 
 async function fetchPages<T>(
