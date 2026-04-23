@@ -207,7 +207,7 @@ export function DashboardLoader({
         <div className="mb-6 flex flex-col gap-4 border border-foreground bg-card p-6 hard-shadow sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-bold uppercase text-muted-foreground">Public Repository Analytics</p>
-            <h1 className="mt-2 text-3xl font-black uppercase leading-none tracking-[-0.08em] sm:text-5xl md:text-6xl">
+            <h1 className="mt-2 text-2xl font-black uppercase leading-[0.9] tracking-[-0.08em] sm:text-4xl md:text-5xl lg:text-6xl break-all">
               {analysis.repo.fullName}
             </h1>
             <a
