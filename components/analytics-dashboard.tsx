@@ -92,34 +92,34 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
 
   return (
     <div className="space-y-3">
-      <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-2 grid-cols-2 lg:grid-cols-4">
         <StatCard
-          icon={<Award className="h-5 w-5" />}
+          icon={<Award className="h-4 w-4 md:h-5 md:w-5" />}
           label="Contributors"
           value={integer(analysis.totals.contributors)}
           detail={`${compactNumber(analysis.totals.points)} total points`}
         />
         <StatCard
-          icon={<GitCommitHorizontal className="h-5 w-5" />}
+          icon={<GitCommitHorizontal className="h-4 w-4 md:h-5 md:w-5" />}
           label="Commits"
           value={integer(analysis.totals.commits)}
           detail={`${compactNumber(analysis.totals.additions)} additions`}
         />
         <StatCard
-          icon={<GitPullRequest className="h-5 w-5" />}
+          icon={<GitPullRequest className="h-4 w-4 md:h-5 md:w-5" />}
           label="Merged PRs"
           value={integer(analysis.totals.pullRequestsMerged)}
           detail={`${integer(analysis.totals.pullRequestsOpened)} opened`}
         />
         <StatCard
-          icon={<MessageSquareText className="h-5 w-5" />}
+          icon={<MessageSquareText className="h-4 w-4 md:h-5 md:w-5" />}
           label="Reviews"
           value={integer(analysis.totals.reviews)}
           detail={`${analysis.scan.authenticated ? "token scan" : "public scan"}`}
         />
       </section>
 
-      <section className="grid gap-3 items-start xl:grid-cols-[1fr_0.85fr]">
+      <section className="grid gap-3 items-start lg:grid-cols-[1fr_0.85fr]">
         {/* Left Column */}
         <div className="space-y-3">
           <div className="border border-foreground bg-card p-4 hard-shadow">
@@ -383,13 +383,13 @@ function StatCard({
   detail: string;
 }) {
   return (
-    <div className="border border-border bg-card p-4">
-      <div className="mb-4 flex items-center justify-between text-muted-foreground">
+    <div className="border border-border bg-card p-3 md:p-4">
+      <div className="mb-2 md:mb-4 flex items-center justify-between text-muted-foreground">
         {icon}
-        <span className="text-xs font-bold uppercase">{label}</span>
+        <span className="text-[10px] md:text-xs font-bold uppercase">{label}</span>
       </div>
-      <p className="text-4xl font-black tracking-[-0.1em]">{value}</p>
-      <p className="mt-2 text-xs uppercase text-muted-foreground">{detail}</p>
+      <p className="text-2xl md:text-4xl font-black tracking-[-0.1em]">{value}</p>
+      <p className="mt-1 md:mt-2 text-[10px] md:text-xs uppercase text-muted-foreground line-clamp-1">{detail}</p>
     </div>
   );
 }
