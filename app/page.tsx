@@ -9,12 +9,20 @@ export default function Home() {
             <img src="/logo.png" alt="ContributionXpert Logo" className="h-6 w-6 object-contain" />
             ContributionXpert
           </Link>
-          <Link
-            href="/repository"
-            className="border border-foreground bg-foreground px-4 py-2 text-sm font-bold uppercase text-background transition hover:bg-background hover:text-foreground"
-          >
-            Start scan
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/explore"
+              className="px-4 py-2 text-sm font-bold uppercase transition hover:text-muted-foreground"
+            >
+              Explore
+            </Link>
+            <Link
+              href="/repository"
+              className="border border-foreground bg-foreground px-4 py-2 text-sm font-bold uppercase text-background transition hover:bg-background hover:text-foreground"
+            >
+              Start scan
+            </Link>
+          </div>
         </nav>
 
         <div className="grid gap-8 py-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
@@ -36,14 +44,12 @@ export default function Home() {
               >
                 Connect repository
               </Link>
-              <a
-                href="https://docs.github.com/en/rest"
+              <Link
+                href="/explore"
                 className="border border-border bg-card px-6 py-4 text-center text-sm font-black uppercase transition hover:border-foreground"
-                target="_blank"
-                rel="noreferrer"
               >
-                GitHub REST ready
-              </a>
+                Explore Projects
+              </Link>
             </div>
           </div>
 
