@@ -10,16 +10,24 @@ export default function Home() {
             <img src="/logo.png" alt="ContributionXpert Logo" className="h-6 w-6 object-contain" />
             ContributionXpert
           </Link>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Link
               href="/explore"
-              className="hidden sm:inline-block px-4 py-2 text-sm font-bold uppercase transition hover:text-muted-foreground"
+              className="hidden sm:inline-block px-3 py-2 text-sm font-bold uppercase transition hover:text-muted-foreground"
             >
               Explore
             </Link>
+            <a
+              href="https://github.com/GitNimay"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden md:inline-block border border-border bg-card px-3 py-2 text-sm font-bold uppercase transition hover:border-foreground"
+            >
+              Support the Creator
+            </a>
             <Link
               href="/repository"
-              className="hidden sm:inline-block border border-foreground bg-foreground px-4 py-2 text-sm font-bold uppercase text-background transition hover:bg-background hover:text-foreground"
+              className="hidden sm:inline-block border border-foreground bg-foreground px-3 py-2 text-sm font-bold uppercase text-background transition hover:bg-background hover:text-foreground"
             >
               Start scan
             </Link>

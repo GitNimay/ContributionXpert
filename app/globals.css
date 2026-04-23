@@ -102,10 +102,18 @@
   --sidebar-primary-foreground: #171717;
 }
 
+*,
+*::before,
+*::after {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-mono);
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
@@ -118,6 +126,11 @@ a,
 input,
 select {
   font: inherit;
+  transition: color 120ms ease, background-color 120ms ease, border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+
+img {
+  will-change: auto;
 }
 
 .grid-paper {
@@ -153,6 +166,16 @@ select {
   box-shadow: 6px 6px 0 #525252;
 }
 
+/* Recharts dark‑mode overrides */
+.recharts-text,
+.recharts-cartesian-axis-tick-value {
+  fill: var(--muted-foreground) !important;
+}
+
+.recharts-legend-item-text {
+  color: var(--foreground) !important;
+}
+
 @keyframes enter-up {
   from {
     opacity: 0;
@@ -167,3 +190,4 @@ select {
 .enter-up {
   animation: enter-up 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+

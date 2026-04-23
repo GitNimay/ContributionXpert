@@ -41,7 +41,7 @@ type AnalyticsDashboardProps = {
   shareUrl: string;
 };
 
-const chartColors = ["#171717", "#525252", "#737373", "#a3a3a3", "#d4d4d4"];
+const chartColors = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
 
 export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardProps) {
   const topContributors = analysis.contributors.slice(0, 8);
@@ -78,7 +78,7 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
     : [];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
           icon={<Award className="h-5 w-5" />}
@@ -106,17 +106,88 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
         />
       </section>
 
-      <section className="grid gap-4 items-start xl:grid-cols-[1fr_0.85fr]">
-        <div className="border border-foreground bg-card p-4 hard-shadow">
-          <SectionTitle icon={<Award className="h-5 w-5" />} title="Leaderboard details" />
-          <div className="mt-4 divide-y divide-border border border-border">
-            {analysis.contributors.map((contributor) => (
-              <ContributorRow key={contributor.id} contributor={contributor} />
-            ))}
+      <section className="grid gap-3 items-start xl:grid-cols-[1fr_0.85fr]">
+        {/* Left Column */}
+        <div className="space-y-3">
+          <div className="border border-foreground bg-card p-4 hard-shadow">
+            <SectionTitle icon={<Award className="h-5 w-5" />} title="Leaderboard details" />
+            <div className="mt-3 divide-y divide-border border border-border">
+              {analysis.contributors.map((contributor) => (
+                <ContributorRow key={contributor.id} contributor={contributor} />
+              ))}
+            </div>
+          </div>
+          
+          <div className="border border-border bg-card p-4">
+            <SectionTitle icon={<TrendingUp className="h-5 w-5" />} title="Contribution leaderboard" />
+            <div className="mt-3 h-[260px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={leaderData} layout="vertical" margin={{ left: 18, right: 24, top: 4, bottom: 4 }}>
+                  <CartesianGrid stroke="var(--border)" strokeDasharray="2 2" horizontal={false} />
+                  <XAxis type="number" hide />
+                  <YAxis type="category" dataKey="name" width={82} tickLine={false} axisLine={false} stroke="var(--muted-foreground)" />
+                  <Tooltip cursor={{ fill: "var(--muted)" }} content={<ChartTooltip />} />
+                  <Bar dataKey="points" fill="var(--chart-1)" radius={0}>
+                    {leaderData.map((_, index) => (
+                      <Cell key={index} fill={chartColors[index % chartColors.length]} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className="border border-border bg-card p-4">
+            <SectionTitle icon={<Braces className="h-5 w-5" />} title="Impact mix" />
+            <div className="mt-3 h-[260px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={mixData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={2} label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}>
+                    {mixData.map((_, index) => (
+                      <Cell key={index} fill={chartColors[index % chartColors.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip content={<ChartTooltip />} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className="grid gap-3 grid-cols-2">
+            <div className="border border-border bg-card p-4">
+              <SectionTitle icon={<GitCommitHorizontal className="h-5 w-5" />} title="Code volume" />
+              <div className="mt-3 h-[220px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ScatterChart margin={{ left: 0, right: 16, top: 8, bottom: 8 }}>
+                    <CartesianGrid stroke="var(--border)" strokeDasharray="2 2" />
+                    <XAxis dataKey="additions" name="additions" tickLine={false} axisLine={false} stroke="var(--muted-foreground)" />
+                    <YAxis dataKey="deletions" name="deletions" tickLine={false} axisLine={false} stroke="var(--muted-foreground)" />
+                    <Tooltip cursor={{ strokeDasharray: "2 2" }} content={<ChartTooltip />} />
+                    <Scatter data={scatterData} fill="var(--chart-1)" />
+                  </ScatterChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div className="border border-border bg-card p-4">
+              <SectionTitle icon={<ShieldCheck className="h-5 w-5" />} title="Top profile" />
+              <div className="mt-3 h-[220px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart data={radarData} cx="50%" cy="50%">
+                    <PolarGrid stroke="var(--border)" />
+                    <PolarAngleAxis dataKey="metric" stroke="var(--muted-foreground)" />
+                    <PolarRadiusAxis angle={90} tick={false} axisLine={false} />
+                    <Radar dataKey="value" stroke="var(--chart-1)" fill="var(--chart-1)" fillOpacity={0.3} />
+                    <Tooltip content={<ChartTooltip />} />
+                  </RadarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="space-y-4">
+        {/* Right Column */}
+        <div className="space-y-3">
           <div className="border border-border bg-card p-4">
             <SectionTitle icon={<Share2 className="h-5 w-5" />} title="Shareable report" />
             <p className="mt-3 break-all border border-border bg-muted p-3 text-xs text-muted-foreground">
@@ -126,7 +197,7 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
 
           <div className="border border-border bg-card p-4">
             <SectionTitle icon={<AlertTriangle className="h-5 w-5" />} title="Scan notes" />
-            <div className="mt-4 grid gap-2 text-xs uppercase text-muted-foreground">
+            <div className="mt-3 grid gap-2 text-xs uppercase text-muted-foreground">
               <ScanLine label="Branch" value={analysis.scan.branch} />
               <ScanLine label="Depth" value={analysis.scan.scanDepth} />
               <ScanLine label="Commits read" value={integer(analysis.scan.commitDetailsScanned)} />
@@ -134,7 +205,7 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
               <ScanLine label="Rate left" value={analysis.scan.rateLimit.remaining?.toString() ?? "unknown"} />
             </div>
             {analysis.scan.warnings.length ? (
-              <div className="mt-4 space-y-2">
+              <div className="mt-3 space-y-2">
                 {analysis.scan.warnings.map((warning) => (
                   <p key={warning} className="border border-border bg-muted p-3 text-xs leading-5 text-muted-foreground">
                     {warning}
@@ -146,10 +217,10 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
 
           <div className="border border-border bg-card p-4">
             <SectionTitle icon={<Braces className="h-5 w-5" />} title="File ownership signals" />
-            <div className="mt-4 space-y-2">
+            <div className="mt-3 space-y-2">
               {analysis.files.slice(0, 10).map((file) => (
                 <div key={`${file.contributorId}:${file.path}`} className="border border-border bg-muted p-3">
-                  <div className="mb-2 flex items-center justify-between gap-3 text-xs font-bold uppercase">
+                  <div className="mb-1 flex items-center justify-between gap-3 text-xs font-bold uppercase">
                     <span className="truncate">{file.path}</span>
                     <span>{compactNumber(file.changes)}</span>
                   </div>
@@ -160,95 +231,27 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
               ))}
             </div>
           </div>
-        </div>
-      </section>
-      <section className="grid gap-4 xl:grid-cols-[0.95fr_1.05fr]">
-        <div className="border border-foreground bg-card p-4 hard-shadow">
-          <SectionTitle icon={<TrendingUp className="h-5 w-5" />} title="Contribution leaderboard" />
-          <div className="mt-4 h-[340px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={leaderData} layout="vertical" margin={{ left: 18, right: 24, top: 8, bottom: 8 }}>
-                <CartesianGrid stroke="#e5e5e5" strokeDasharray="2 2" horizontal={false} />
-                <XAxis type="number" hide />
-                <YAxis type="category" dataKey="name" width={82} tickLine={false} axisLine={false} />
-                <Tooltip cursor={{ fill: "#f5f5f5" }} content={<ChartTooltip />} />
-                <Bar dataKey="points" fill="#171717" radius={0}>
-                  {leaderData.map((_, index) => (
-                    <Cell key={index} fill={chartColors[index % chartColors.length]} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
 
-        <div className="border border-border bg-card p-4">
-          <SectionTitle icon={<Activity className="h-5 w-5" />} title="Activity over time" />
-          <div className="mt-4 h-[340px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={timelineData} margin={{ left: 0, right: 8, top: 8, bottom: 8 }}>
-                <defs>
-                  <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse">
-                    <path d="M 0 6 L 6 0" stroke="#737373" strokeWidth="1" />
-                  </pattern>
-                </defs>
-                <CartesianGrid stroke="#e5e5e5" strokeDasharray="2 2" />
-                <XAxis dataKey="label" minTickGap={28} tickLine={false} axisLine={false} />
-                <YAxis tickLine={false} axisLine={false} width={44} />
-                <Tooltip content={<ChartTooltip />} />
-                <Area type="monotone" dataKey="commits" stackId="1" stroke="#171717" fill="#171717" />
-                <Area type="monotone" dataKey="pullRequests" stackId="1" stroke="#525252" fill="#737373" />
-                <Area type="monotone" dataKey="reviews" stackId="1" stroke="#737373" fill="url(#hatch)" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </section>
-
-      <section className="grid gap-4 xl:grid-cols-3">
-        <div className="border border-border bg-card p-4">
-          <SectionTitle icon={<Braces className="h-5 w-5" />} title="Impact mix" />
-          <div className="mt-4 h-[280px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie data={mixData} dataKey="value" nameKey="name" innerRadius={58} outerRadius={98} paddingAngle={2}>
-                  {mixData.map((_, index) => (
-                    <Cell key={index} fill={chartColors[index % chartColors.length]} />
-                  ))}
-                </Pie>
-                <Tooltip content={<ChartTooltip />} />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="border border-border bg-card p-4">
-          <SectionTitle icon={<GitCommitHorizontal className="h-5 w-5" />} title="Code volume map" />
-          <div className="mt-4 h-[280px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <ScatterChart margin={{ left: 0, right: 16, top: 10, bottom: 10 }}>
-                <CartesianGrid stroke="#e5e5e5" strokeDasharray="2 2" />
-                <XAxis dataKey="additions" name="additions" tickLine={false} axisLine={false} />
-                <YAxis dataKey="deletions" name="deletions" tickLine={false} axisLine={false} />
-                <Tooltip cursor={{ strokeDasharray: "2 2" }} content={<ChartTooltip />} />
-                <Scatter data={scatterData} fill="#171717" />
-              </ScatterChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="border border-border bg-card p-4">
-          <SectionTitle icon={<ShieldCheck className="h-5 w-5" />} title="Top contributor profile" />
-          <div className="mt-4 h-[280px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart data={radarData}>
-                <PolarGrid stroke="#d4d4d4" />
-                <PolarAngleAxis dataKey="metric" />
-                <PolarRadiusAxis angle={90} tick={false} axisLine={false} />
-                <Radar dataKey="value" stroke="#171717" fill="#171717" fillOpacity={0.3} />
-                <Tooltip content={<ChartTooltip />} />
-              </RadarChart>
-            </ResponsiveContainer>
+          <div className="border border-border bg-card p-4">
+            <SectionTitle icon={<Activity className="h-5 w-5" />} title="Activity over time" />
+            <div className="mt-3 h-[260px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={timelineData} margin={{ left: 0, right: 8, top: 4, bottom: 4 }}>
+                  <defs>
+                    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse">
+                      <path d="M 0 6 L 6 0" stroke="var(--chart-3)" strokeWidth="1" />
+                    </pattern>
+                  </defs>
+                  <CartesianGrid stroke="var(--border)" strokeDasharray="2 2" />
+                  <XAxis dataKey="label" minTickGap={28} tickLine={false} axisLine={false} stroke="var(--muted-foreground)" />
+                  <YAxis tickLine={false} axisLine={false} width={44} stroke="var(--muted-foreground)" />
+                  <Tooltip content={<ChartTooltip />} />
+                  <Area type="monotone" dataKey="commits" stackId="1" stroke="var(--chart-1)" fill="var(--chart-1)" />
+                  <Area type="monotone" dataKey="pullRequests" stackId="1" stroke="var(--chart-2)" fill="var(--chart-2)" />
+                  <Area type="monotone" dataKey="reviews" stackId="1" stroke="var(--chart-3)" fill="url(#hatch)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
       </section>
