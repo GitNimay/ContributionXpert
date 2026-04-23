@@ -114,7 +114,7 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
         <div className="space-y-3">
           <div className="border border-foreground bg-card p-4 hard-shadow">
             <SectionTitle icon={<Award className="h-5 w-5" />} title="Leaderboard details" />
-            <div className="mt-3 divide-y divide-border border border-border">
+            <div className="mt-3 divide-y divide-border border border-border max-h-[500px] overflow-y-auto">
               {analysis.contributors.map((contributor) => (
                 <ContributorRow key={contributor.id} contributor={contributor} />
               ))}
