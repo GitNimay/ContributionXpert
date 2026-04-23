@@ -7,6 +7,7 @@ type AppFrameProps = {
   title: string;
   description?: string;
   activeStep?: "repository" | "workspace" | "onboarding" | "dashboard";
+  hideSteps?: boolean;
 };
 
 const steps = [
@@ -16,7 +17,7 @@ const steps = [
   { id: "dashboard", label: "Dashboard", href: "#" },
 ] as const;
 
-export function AppFrame({ children, eyebrow, title, description, activeStep }: AppFrameProps) {
+export function AppFrame({ children, eyebrow, title, description, activeStep, hideSteps }: AppFrameProps) {
   return (
     <main className="grid-paper min-h-screen bg-background text-foreground">
       <div className="mx-auto w-full max-w-7xl px-5 py-5 sm:px-8 lg:px-10">
@@ -25,25 +26,27 @@ export function AppFrame({ children, eyebrow, title, description, activeStep }: 
             <img src="/logo.png" alt="ContributionXpert Logo" className="h-6 w-6 object-contain" />
             ContributionXpert
           </Link>
-          <div className="flex flex-wrap gap-2">
-            {steps.map((step, index) => {
-              const isActive = step.id === activeStep;
+          {!hideSteps && (
+            <div className="flex flex-wrap gap-2">
+              {steps.map((step, index) => {
+                const isActive = step.id === activeStep;
 
-              return (
-                <Link
-                  key={step.id}
-                  href={step.href}
-                  className={`border px-3 py-2 text-xs font-bold uppercase ${
-                    isActive
-                      ? "border-foreground bg-foreground text-background"
-                      : "border-border bg-background text-muted-foreground"
-                  }`}
-                >
-                  {String(index + 1).padStart(2, "0")} {step.label}
-                </Link>
-              );
-            })}
-          </div>
+                return (
+                  <Link
+                    key={step.id}
+                    href={step.href}
+                    className={`border px-3 py-2 text-xs font-bold uppercase ${
+                      isActive
+                        ? "border-foreground bg-foreground text-background"
+                        : "border-border bg-background text-muted-foreground"
+                    }`}
+                  >
+                    {String(index + 1).padStart(2, "0")} {step.label}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </nav>
 
         <header className="mb-6 grid gap-4 border border-foreground bg-card p-5 sm:p-7 lg:grid-cols-[1fr_auto] lg:items-end">

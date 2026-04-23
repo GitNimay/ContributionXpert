@@ -43,6 +43,7 @@ export default async function SharePage({ params }: SharePageProps) {
   return (
     <AppFrame
       activeStep="dashboard"
+      hideSteps={true}
       eyebrow="public share"
       title="Shared contribution board"
       description="Read-only GitHub contribution analytics generated from the repository and scan settings in this share link."

@@ -106,6 +106,62 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
         />
       </section>
 
+      <section className="grid gap-4 xl:grid-cols-[1fr_0.85fr]">
+        <div className="border border-foreground bg-card p-4 hard-shadow">
+          <SectionTitle icon={<Award className="h-5 w-5" />} title="Leaderboard details" />
+          <div className="mt-4 divide-y divide-border border border-border">
+            {analysis.contributors.map((contributor) => (
+              <ContributorRow key={contributor.id} contributor={contributor} />
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div className="border border-border bg-card p-4">
+            <SectionTitle icon={<Share2 className="h-5 w-5" />} title="Shareable report" />
+            <p className="mt-3 break-all border border-border bg-muted p-3 text-xs text-muted-foreground">
+              {shareUrl}
+            </p>
+          </div>
+
+          <div className="border border-border bg-card p-4">
+            <SectionTitle icon={<AlertTriangle className="h-5 w-5" />} title="Scan notes" />
+            <div className="mt-4 grid gap-2 text-xs uppercase text-muted-foreground">
+              <ScanLine label="Branch" value={analysis.scan.branch} />
+              <ScanLine label="Depth" value={analysis.scan.scanDepth} />
+              <ScanLine label="Commits read" value={integer(analysis.scan.commitDetailsScanned)} />
+              <ScanLine label="PRs read" value={integer(analysis.scan.pullRequestDetailsScanned)} />
+              <ScanLine label="Rate left" value={analysis.scan.rateLimit.remaining?.toString() ?? "unknown"} />
+            </div>
+            {analysis.scan.warnings.length ? (
+              <div className="mt-4 space-y-2">
+                {analysis.scan.warnings.map((warning) => (
+                  <p key={warning} className="border border-border bg-muted p-3 text-xs leading-5 text-muted-foreground">
+                    {warning}
+                  </p>
+                ))}
+              </div>
+            ) : null}
+          </div>
+
+          <div className="border border-border bg-card p-4">
+            <SectionTitle icon={<Braces className="h-5 w-5" />} title="File ownership signals" />
+            <div className="mt-4 space-y-2">
+              {analysis.files.slice(0, 10).map((file) => (
+                <div key={`${file.contributorId}:${file.path}`} className="border border-border bg-muted p-3">
+                  <div className="mb-2 flex items-center justify-between gap-3 text-xs font-bold uppercase">
+                    <span className="truncate">{file.path}</span>
+                    <span>{compactNumber(file.changes)}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {file.contributorLogin} / .{file.extension}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
       <section className="grid gap-4 xl:grid-cols-[0.95fr_1.05fr]">
         <div className="border border-foreground bg-card p-4 hard-shadow">
           <SectionTitle icon={<TrendingUp className="h-5 w-5" />} title="Contribution leaderboard" />
@@ -193,63 +249,6 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
                 <Tooltip content={<ChartTooltip />} />
               </RadarChart>
             </ResponsiveContainer>
-          </div>
-        </div>
-      </section>
-
-      <section className="grid gap-4 xl:grid-cols-[1fr_0.85fr]">
-        <div className="border border-foreground bg-card p-4 hard-shadow">
-          <SectionTitle icon={<Award className="h-5 w-5" />} title="Leaderboard details" />
-          <div className="mt-4 divide-y divide-border border border-border">
-            {analysis.contributors.map((contributor) => (
-              <ContributorRow key={contributor.id} contributor={contributor} />
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <div className="border border-border bg-card p-4">
-            <SectionTitle icon={<Share2 className="h-5 w-5" />} title="Shareable report" />
-            <p className="mt-3 break-all border border-border bg-muted p-3 text-xs text-muted-foreground">
-              {shareUrl}
-            </p>
-          </div>
-
-          <div className="border border-border bg-card p-4">
-            <SectionTitle icon={<AlertTriangle className="h-5 w-5" />} title="Scan notes" />
-            <div className="mt-4 grid gap-2 text-xs uppercase text-muted-foreground">
-              <ScanLine label="Branch" value={analysis.scan.branch} />
-              <ScanLine label="Depth" value={analysis.scan.scanDepth} />
-              <ScanLine label="Commits read" value={integer(analysis.scan.commitDetailsScanned)} />
-              <ScanLine label="PRs read" value={integer(analysis.scan.pullRequestDetailsScanned)} />
-              <ScanLine label="Rate left" value={analysis.scan.rateLimit.remaining?.toString() ?? "unknown"} />
-            </div>
-            {analysis.scan.warnings.length ? (
-              <div className="mt-4 space-y-2">
-                {analysis.scan.warnings.map((warning) => (
-                  <p key={warning} className="border border-border bg-muted p-3 text-xs leading-5 text-muted-foreground">
-                    {warning}
-                  </p>
-                ))}
-              </div>
-            ) : null}
-          </div>
-
-          <div className="border border-border bg-card p-4">
-            <SectionTitle icon={<Braces className="h-5 w-5" />} title="File ownership signals" />
-            <div className="mt-4 space-y-2">
-              {analysis.files.slice(0, 10).map((file) => (
-                <div key={`${file.contributorId}:${file.path}`} className="border border-border bg-muted p-3">
-                  <div className="mb-2 flex items-center justify-between gap-3 text-xs font-bold uppercase">
-                    <span className="truncate">{file.path}</span>
-                    <span>{compactNumber(file.changes)}</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    {file.contributorLogin} / .{file.extension}
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
