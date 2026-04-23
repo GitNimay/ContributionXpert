@@ -81,7 +81,9 @@ export function RepositoryPageClient() {
             <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="text-xs uppercase text-muted-foreground">Validated repository</p>
-                <h2 className="mt-2 text-3xl font-black tracking-[-0.08em]">{preview.fullName}</h2>
+                <h2 className="mt-2 text-2xl font-black tracking-[-0.08em] sm:text-3xl break-all">
+                  {preview.fullName}
+                </h2>
               </div>
               <span className="inline-flex items-center gap-2 border border-border bg-muted px-3 py-2 text-xs font-bold uppercase">
                 {preview.isPrivate ? <Lock className="h-3 w-3" /> : <Star className="h-3 w-3" />}

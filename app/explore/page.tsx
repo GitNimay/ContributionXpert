@@ -52,7 +52,7 @@ export default async function ExplorePage() {
                 <p className="mb-2 text-[10px] font-bold uppercase text-muted-foreground">
                   {payload.workspaceName || "Public Share"}
                 </p>
-                <h3 className="text-xl font-black uppercase tracking-[-0.04em] break-words">
+                <h3 className="text-xl font-black uppercase tracking-[-0.04em] break-all">
                   {payload.repo}
                 </h3>
               </div>
