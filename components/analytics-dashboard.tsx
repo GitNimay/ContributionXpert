@@ -5,6 +5,7 @@ import {
   AlertTriangle,
   Award,
   Braces,
+  Flame,
   GitCommitHorizontal,
   GitPullRequest,
   MessageSquareText,
@@ -144,7 +145,7 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
             <div className="mt-3 h-[260px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie data={mixData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={85} paddingAngle={2} label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}>
+                  <Pie data={mixData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={75} paddingAngle={2} label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}>
                     {mixData.map((_, index) => (
                       <Cell key={index} fill={chartColors[index % chartColors.length]} />
                     ))}
@@ -155,7 +156,7 @@ export function AnalyticsDashboard({ analysis, shareUrl }: AnalyticsDashboardPro
             </div>
           </div>
 
-          <div className="grid gap-3 grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2">
             <div className="border border-border bg-card p-4">
               <SectionTitle icon={<GitCommitHorizontal className="h-5 w-5" />} title="Code volume" />
               <div className="mt-3 h-[220px]">
@@ -279,6 +280,14 @@ function ContributorRow({ contributor }: { contributor: ContributorStats }) {
     );
   };
 
+  const sortedDaily = [...(contributor.daily || [])].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  const recentDays = sortedDaily.slice(-21);
+  let streak = 0;
+  for (let i = sortedDaily.length - 1; i >= 0; i--) {
+    if (sortedDaily[i].points > 0) streak++;
+    else break;
+  }
+
   return (
     <div className="flex flex-col sm:flex-row sm:items-center gap-3 bg-background p-3 transition hover:bg-muted/50">
       <div className="flex items-start sm:items-center gap-3 w-full sm:w-auto">
@@ -323,7 +332,21 @@ function ContributorRow({ contributor }: { contributor: ContributorStats }) {
             <span className="border border-border bg-muted px-1.5 py-0.5 text-[10px] font-bold uppercase text-muted-foreground">bot</span>
           ) : null}
         </ProfileLink>
-        <div className="mt-2 sm:mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+        <div className="mt-3 sm:mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1 font-bold text-orange-500" title={`${streak} Day Streak`}>
+            <Flame className="w-4 h-4" />
+            {streak}
+          </div>
+          <div className="flex items-center gap-[2px] mr-2" title="Last 21 days of activity">
+            {recentDays.map((d, i) => {
+              let bg = "bg-muted";
+              if (d.points > 20) bg = "bg-foreground";
+              else if (d.points > 10) bg = "bg-foreground/80";
+              else if (d.points > 5) bg = "bg-foreground/60";
+              else if (d.points > 0) bg = "bg-foreground/40";
+              return <div key={i} className={`w-2.5 h-3.5 rounded-sm ${bg}`} title={`${d.date}: ${integer(d.points)} points`} />;
+            })}
+          </div>
           <span><strong className="text-foreground">{integer(contributor.commits)}</strong> commits</span>
           <span><strong className="text-foreground">{integer(contributor.pullRequestsMerged)}</strong> merged PRs</span>
           <span><strong className="text-foreground">{integer(contributor.reviews)}</strong> reviews</span>
