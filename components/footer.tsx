@@ -80,10 +80,10 @@ export function Footer() {
 
       {/* Content */}
       <div className="relative z-20 mx-auto w-full max-w-[1200px] px-6 py-16 sm:px-12 sm:py-20 lg:px-16">
-        {/* Link Sections */}
-        <div className="grid grid-cols-1 gap-10 sm:gap-12 md:grid-cols-3 md:gap-8">
+        {/* Link Sections — staggered reveal */}
+        <div className="grid grid-cols-1 gap-10 sm:gap-12 md:grid-cols-3 md:gap-8 sd-stagger">
           {/* LEARN */}
-          <div>
+          <div className="sd-animate sd-reveal-up">
             <h3 className="mb-5 text-xs font-semibold tracking-widest text-white/70">
               {footerLinks.learn.title}
             </h3>
@@ -106,7 +106,7 @@ export function Footer() {
           </div>
 
           {/* GENERAL */}
-          <div>
+          <div className="sd-animate sd-reveal-up">
             <h3 className="mb-5 text-xs font-semibold tracking-widest text-white/70">
               {footerLinks.general.title}
             </h3>
@@ -129,7 +129,7 @@ export function Footer() {
           </div>
 
           {/* RESOURCES */}
-          <div>
+          <div className="sd-animate sd-reveal-up">
             <h3 className="mb-5 text-xs font-semibold tracking-widest text-white/70">
               {footerLinks.resources.title}
             </h3>
@@ -152,8 +152,8 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="mt-14 border-t border-white/10 pt-8">
+        {/* Copyright — reveal */}
+        <div className="mt-14 border-t border-white/10 pt-8 sd-animate sd-reveal-up">
           <p className="text-xs text-white/60">
             © {new Date().getFullYear()} GitKiwi. A service provided for open
             source contributors.

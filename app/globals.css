@@ -21,10 +21,10 @@
   --popover: oklch(1 0 0);
   --primary: oklch(0.205 0 0);
   --sidebar: oklch(0.985 0 0);
-  --font-mono: "Bitcount", monospace;
-  --font-sans: "Pixelify Sans", sans-serif;
+  --font-mono: var(--font-geist-mono), "Geist Mono", monospace;
+  --font-sans: var(--font-geist-mono), "Geist Mono", monospace;
   --secondary: oklch(0.97 0 0);
-  --font-serif: "Bitcount Single", serif;
+  --font-serif: var(--font-geist-mono), "Geist Mono", monospace;
   --destructive: oklch(0.577 0.245 27.325);
   --shadow-blur: 0px;
   --shadow-color: hsl(0 0% 0%);
@@ -89,7 +89,7 @@
   --color-border-faint: var(--border-faint);
   --color-border-soft: var(--border-soft);
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -565,4 +565,29 @@ img {
     color-mix(in srgb, var(--surface) 45%, transparent) 75%,
     transparent 100%
   );
+}
+
+.landing-font {
+  --font-sans: "Pixelify Sans", sans-serif;
+  --font-mono: "Bitcount", monospace;
+  --font-serif: "Bitcount Single", serif;
+  font-weight: 300;
+  font-family: "Pixelify Sans", sans-serif;
+}
+
+.landing-font h1,
+.landing-font h2,
+.landing-font h3,
+.landing-font h4,
+.landing-font h5,
+.landing-font h6 {
+  font-weight: 400;
+  font-family: "Pixelify Sans", sans-serif;
+}
+
+.landing-font p,
+.landing-font span,
+.landing-font li,
+.landing-font a {
+  font-weight: 300;
 }

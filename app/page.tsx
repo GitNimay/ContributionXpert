@@ -7,7 +7,7 @@ import { Footer } from "@/components/footer";
 export default function Home() {
   return (
     <main
-      className={`relative min-h-screen bg-surface text-foreground`}
+      className={`landing-font relative min-h-screen bg-surface text-foreground`}
     >
       {/* Hero Wrapper — anchors background images and content stacking */}
       <div className="relative min-h-screen min-h-dvh flex flex-col justify-between bg-surface">
@@ -105,17 +105,17 @@ export default function Home() {
                 </Link>
               </div>
 
-              {/* Bottom Stats Grid matching the reference layout */}
-              <div className="mt-10 grid grid-cols-3 gap-0 border-t border-border-faint pt-6 sm:mt-16 sm:max-w-[30rem] sm:gap-6 sm:border-border-subtle sm:pt-8">
-                <div className="border-r border-border-subtle pr-4 sm:pr-6">
+              {/* Bottom Stats Grid — scroll pop animation with stagger */}
+              <div className="mt-10 grid grid-cols-3 gap-0 border-t border-border-faint pt-6 sm:mt-16 sm:max-w-[30rem] sm:gap-6 sm:border-border-subtle sm:pt-8 sd-stagger">
+                <div className="border-r border-border-subtle pr-4 sm:pr-6 sd-animate sd-pop">
                   <div className="text-lg font-bold tracking-tight text-foreground sm:text-2xl">24/7</div>
                   <div className="mt-1 text-[10px] leading-snug text-text-body sm:text-xs">Real-time scans</div>
                 </div>
-                <div className="border-r border-border-subtle px-4 sm:px-0 sm:pr-6">
+                <div className="border-r border-border-subtle px-4 sm:px-0 sm:pr-6 sd-animate sd-pop">
                   <div className="text-lg font-bold tracking-tight text-foreground sm:text-2xl">100%</div>
                   <div className="mt-1 text-[10px] leading-snug text-text-body sm:text-xs">Secure analysis</div>
                 </div>
-                <div className="pl-4 sm:pl-0">
+                <div className="pl-4 sm:pl-0 sd-animate sd-pop">
                   <div className="text-lg font-bold tracking-tight text-foreground sm:text-2xl">Instant</div>
                   <div className="mt-1 text-[10px] leading-snug text-text-body sm:text-xs">Dev scoring</div>
                 </div>
@@ -125,9 +125,9 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ─── Divider ─── */}
+      {/* ─── Divider — animated width expand on scroll ─── */}
       <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-8 lg:px-10">
-        <div className="border-t border-border-subtle" />
+        <div className="border-t border-border-subtle sd-animate sd-width-expand" />
       </div>
 
       {/* ─── Features Bento Section ─── */}

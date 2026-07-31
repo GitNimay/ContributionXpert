@@ -161,8 +161,8 @@ const features: FeatureCardProps[] = [
 export function FeaturesBento() {
   return (
     <section className="mx-auto w-full max-w-[1200px] px-4 py-20 sm:px-8 sm:py-28 lg:px-10">
-      {/* Heading */}
-      <div className="mb-12 lg:mb-16">
+      {/* Heading — blur reveal on scroll */}
+      <div className="mb-12 lg:mb-16 sd-animate sd-blur-reveal">
         <h2
           className="font-semibold uppercase leading-[1.08] tracking-[-0.02em] text-foreground"
           style={{ fontSize: "clamp(1.6rem, 4vw, 2.75rem)" }}
@@ -171,10 +171,12 @@ export function FeaturesBento() {
         </h2>
       </div>
 
-      {/* Three-column bento grid */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Three-column bento grid — cards reveal with scale + stagger */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sd-stagger">
         {features.map((feature) => (
-          <FeatureCard key={feature.title} {...feature} />
+          <div key={feature.title} className="sd-animate sd-reveal-scale">
+            <FeatureCard {...feature} />
+          </div>
         ))}
       </div>
     </section>
