@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@100..900&family=Bitcount:wght@100..900&family=Pixelify+Sans:wght@400..700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -20,10 +21,10 @@
   --popover: oklch(1 0 0);
   --primary: oklch(0.205 0 0);
   --sidebar: oklch(0.985 0 0);
-  --font-mono: var(--font-geist-mono), "Geist Mono", monospace;
-  --font-sans: var(--font-geist-mono), "Geist Mono", monospace;
+  --font-mono: "Bitcount", monospace;
+  --font-sans: "Pixelify Sans", sans-serif;
   --secondary: oklch(0.97 0 0);
-  --font-serif: var(--font-geist-mono), "Geist Mono", monospace;
+  --font-serif: "Bitcount Single", serif;
   --destructive: oklch(0.577 0.245 27.325);
   --shadow-blur: 0px;
   --shadow-color: hsl(0 0% 0%);
@@ -88,7 +89,7 @@
   --color-border-faint: var(--border-faint);
   --color-border-soft: var(--border-soft);
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-mono);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -279,6 +280,257 @@ img {
 
 .enter-up {
   animation: enter-up 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ═══════════════════════════════════════════════
+   SCROLL-DRIVEN ANIMATIONS — Premium Section
+   ═══════════════════════════════════════════════ */
+
+/* ── Keyframes: Reveal Up ── */
+@keyframes scroll-reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Keyframes: Reveal Scale ── */
+@keyframes scroll-reveal-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Keyframes: Reveal Left ── */
+@keyframes scroll-reveal-left {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Keyframes: Reveal Right ── */
+@keyframes scroll-reveal-right {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Keyframes: Blur Reveal ── */
+@keyframes scroll-blur-reveal {
+  from {
+    opacity: 0;
+    filter: blur(12px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+/* ── Keyframes: Rotate In ── */
+@keyframes scroll-rotate-in {
+  from {
+    opacity: 0;
+    transform: rotate(-8deg) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+/* ── Keyframes: Width Expand (for dividers) ── */
+@keyframes scroll-width-expand {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ── Keyframes: Counter / Number Pop ── */
+@keyframes scroll-pop {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  60% {
+    transform: translateY(-4px) scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── Keyframes: Slide Down (for nav) ── */
+@keyframes scroll-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Keyframes: Parallax Float ── */
+@keyframes scroll-parallax-up {
+  from {
+    transform: translateY(30px);
+  }
+  to {
+    transform: translateY(-30px);
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   Utility Classes — attach to elements
+   ═══════════════════════════════════════════════ */
+
+/* Base: hide elements before scroll triggers them */
+.sd-animate {
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Reveal Up — slides up + fades in as element enters viewport */
+.sd-reveal-up {
+  opacity: 0;
+  animation-name: scroll-reveal-up;
+  animation-timeline: view();
+  animation-range: entry 0% entry 100%;
+}
+
+/* Reveal Scale — scales up from 0.92 + fades */
+.sd-reveal-scale {
+  opacity: 0;
+  animation-name: scroll-reveal-scale;
+  animation-timeline: view();
+  animation-range: entry 0% entry 100%;
+}
+
+/* Reveal Left — slides from left */
+.sd-reveal-left {
+  opacity: 0;
+  animation-name: scroll-reveal-left;
+  animation-timeline: view();
+  animation-range: entry 0% entry 100%;
+}
+
+/* Reveal Right — slides from right */
+.sd-reveal-right {
+  opacity: 0;
+  animation-name: scroll-reveal-right;
+  animation-timeline: view();
+  animation-range: entry 0% entry 100%;
+}
+
+/* Blur Reveal — deblur effect */
+.sd-blur-reveal {
+  opacity: 0;
+  animation-name: scroll-blur-reveal;
+  animation-timeline: view();
+  animation-range: entry 0% entry 100%;
+}
+
+/* Rotate In */
+.sd-rotate-in {
+  opacity: 0;
+  animation-name: scroll-rotate-in;
+  animation-timeline: view();
+  animation-range: entry 0% entry 100%;
+}
+
+/* Width Expand — for divider lines */
+.sd-width-expand {
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation-name: scroll-width-expand;
+  animation-timeline: view();
+  animation-range: entry 0% entry 100%;
+}
+
+/* Pop — bouncy entrance for stats/numbers */
+.sd-pop {
+  opacity: 0;
+  animation-name: scroll-pop;
+  animation-timeline: view();
+  animation-range: entry 0% entry 80%;
+}
+
+/* Parallax — subtle float effect */
+.sd-parallax {
+  animation-name: scroll-parallax-up;
+  animation-timeline: view();
+  animation-range: cover 0% cover 100%;
+}
+
+/* ── Stagger delays via nth-child ── */
+.sd-stagger > :nth-child(1) { animation-delay: 0ms; }
+.sd-stagger > :nth-child(2) { animation-delay: 80ms; }
+.sd-stagger > :nth-child(3) { animation-delay: 160ms; }
+.sd-stagger > :nth-child(4) { animation-delay: 240ms; }
+.sd-stagger > :nth-child(5) { animation-delay: 320ms; }
+.sd-stagger > :nth-child(6) { animation-delay: 400ms; }
+
+/* ── Fallback: prefers-reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .sd-animate,
+  .sd-reveal-up,
+  .sd-reveal-scale,
+  .sd-reveal-left,
+  .sd-reveal-right,
+  .sd-blur-reveal,
+  .sd-rotate-in,
+  .sd-width-expand,
+  .sd-pop,
+  .sd-parallax {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* ── Fallback: browsers without scroll-timeline ── */
+@supports not (animation-timeline: view()) {
+  .sd-animate,
+  .sd-reveal-up,
+  .sd-reveal-scale,
+  .sd-reveal-left,
+  .sd-reveal-right,
+  .sd-blur-reveal,
+  .sd-rotate-in,
+  .sd-width-expand,
+  .sd-pop,
+  .sd-parallax {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
 
 @layer base {

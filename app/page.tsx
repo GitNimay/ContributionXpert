@@ -1,19 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Geist } from "next/font/google";
 import { FeaturesBento } from "@/components/features-bento";
 import { Footer } from "@/components/footer";
-
-const geist = Geist({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
 
 export default function Home() {
   return (
     <main
-      className={`relative min-h-screen bg-surface text-foreground ${geist.className}`}
+      className={`relative min-h-screen bg-surface text-foreground`}
     >
       {/* Hero Wrapper — anchors background images and content stacking */}
       <div className="relative min-h-screen min-h-dvh flex flex-col justify-between bg-surface">

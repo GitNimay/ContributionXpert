@@ -472,3 +472,64 @@ It can also happen if the client has a browser extension installed which messes 
 [ 4087565ms] [LOG] [Fast Refresh] done in 124ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
 [ 4153096ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
 [ 4153202ms] [LOG] [Fast Refresh] done in 209ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4509076ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4509077ms] [LOG] [Fast Refresh] done in 105ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4565327ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4565405ms] [LOG] [Fast Refresh] done in 101ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4576021ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4576080ms] [LOG] [Fast Refresh] done in 114ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4581047ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4581110ms] [LOG] [Fast Refresh] done in 91ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4585713ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4585769ms] [LOG] [Fast Refresh] done in 116ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4597002ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4598562ms] [LOG] [Fast Refresh] done in 1621ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4598589ms] [WARNING] Image with src "/bg-web.png" has "fill" and parent element with invalid "position". Provided "static" should be one of absolute,fixed,relative. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4598589ms] [WARNING] Image with src "/bg-mobile.png" has "fill" and parent element with invalid "position". Provided "static" should be one of absolute,fixed,relative. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4598689ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4599952ms] [LOG] [Fast Refresh] done in 1370ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4599952ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/?_rsc=wnywt:0
+[ 4600064ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4601199ms] [LOG] [Fast Refresh] done in 1238ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4601308ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4602508ms] [LOG] [Fast Refresh] done in 1308ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4602514ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/?_rsc=wnywt:0
+[ 4602564ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/:0
+[ 4603903ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_react-dom_0bruynb._.js:15305
+[ 4603994ms] ReferenceError: Geist is not defined
+    at module evaluation (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\_0ymfsqm._.js:76:15)
+    at <unknown> (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\[turbopack]_runtime.js:1291:27)
+    at runWithHooks (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\[turbopack]_runtime.js:1554:9)
+    at instantiateModuleShared (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\[turbopack]_runtime.js:1289:9)
+    at instantiateModule (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\[turbopack]_runtime.js:1557:23)
+    at getOrInstantiateModuleFromParent (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\[turbopack]_runtime.js:1593:23)
+    at Context.esmImport [as i] (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\[turbopack]_runtime.js:281:20)
+    at module evaluation (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\_0ymfsqm._.js:114:47)
+    at <unknown> (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\[turbopack]_runtime.js:1291:27)
+    at runWithHooks (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\[turbopack]_runtime.js:1554:9)
+    at instantiateModuleShared (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\[turbopack]_runtime.js:1289:9)
+    at instantiateModule (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\[turbopack]_runtime.js:1557:23)
+    at getOrInstantiateModuleFromParent (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\[turbopack]_runtime.js:1593:23)
+    at Context.commonJsRequire [as r] (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\[turbopack]_runtime.js:302:12)
+    at Array.__TURBOPACK__layout__$23$2__ (file://D:\NimsWorkspace\ContributionXpert\.next\dev\server\chunks\ssr\node_modules_090nkry._.js:7356:64)
+    at createFlightRouterStateFromLoaderTreeImpl (file://D:\NimsWorkspace\ContributionXpert\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js:62:7029)
+    at createFlightRouterStateFromLoaderTree (file://D:\NimsWorkspace\ContributionXpert\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js:62:8541)
+    at getRSCPayload (file://D:\NimsWorkspace\ContributionXpert\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js:69:41555)
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)
+    at <unknown> (file://D:\NimsWorkspace\ContributionXpert\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js:69:74029)
+    at NoopContextManager.with (file://D:\NimsWorkspace\ContributionXpert\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (file://D:\NimsWorkspace\ContributionXpert\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NextTracerImpl.withSpan (file://D:\NimsWorkspace\ContributionXpert\node_modules\next\dist\server\lib\trace\tracer.js:272:28)
+    at renderToStream (file://D:\NimsWorkspace\ContributionXpert\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js:69:69062)
+    at renderToHTMLOrFlightImpl (file://D:\NimsWorkspace\ContributionXpert\node_modules\next\dist\compiled\next-server\app-page-turbo.runtime.dev.js:69:56901)
+[ 4603992ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1226
+[ 4616055ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1226
+[ 4616512ms] [LOG] [Fast Refresh] done in 82ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1226
+[ 4616765ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4616850ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4617152ms] [WARNING] Image with src "/bg-web.png" is using quality "90" which is not configured in images.qualities [75]. Please update your config to [75, 90].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4617159ms] [WARNING] Image with src "/bg-mobile.png" is using quality "90" which is not configured in images.qualities [75]. Please update your config to [75, 90].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4617285ms] [WARNING] Image with src "/bg-web.png" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 4721848ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
