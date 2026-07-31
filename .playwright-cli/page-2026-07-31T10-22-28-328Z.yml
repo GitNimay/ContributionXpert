@@ -1,0 +1,31 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - navigation [ref=e4]:
+        - link "Home" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e8]:
+          - link "Platform" [ref=e9] [cursor=pointer]:
+            - /url: "#"
+          - link "Solutions" [ref=e10] [cursor=pointer]:
+            - /url: "#"
+          - link "Insights" [ref=e11] [cursor=pointer]:
+            - /url: "#"
+          - link "Resources" [ref=e12] [cursor=pointer]:
+            - /url: "#"
+          - link "Company" [ref=e13] [cursor=pointer]:
+            - /url: "#"
+        - link "Request Demo" [ref=e15] [cursor=pointer]:
+          - /url: /demo
+      - generic [ref=e18]:
+        - heading "The Operating System For Environmental Awareness." [level=1] [ref=e19]:
+          - generic [ref=e20]: The Operating System
+          - generic [ref=e21]: For Environmental
+          - generic [ref=e22]: Awareness.
+        - paragraph [ref=e23]: Helping critical operations stay ahead of environmental risk with trusted intelligence.
+        - generic [ref=e24]:
+          - link "Request Demo" [ref=e25] [cursor=pointer]:
+            - /url: /demo
+          - link "Explore Platform" [ref=e26] [cursor=pointer]:
+            - /url: /platform
+  - button "Open Next.js Dev Tools" [ref=e32] [cursor=pointer]

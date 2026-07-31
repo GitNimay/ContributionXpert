@@ -1,119 +1,133 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Geist } from "next/font/google";
+
+const geist = Geist({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
 
 export default function Home() {
   return (
-    <main className="grid-paper min-h-screen bg-background text-foreground">
-      <section className="mx-auto flex min-h-screen w-full max-w-7xl flex-col justify-between px-5 py-6 sm:px-8 lg:px-10">
-        <nav className="flex items-center justify-between border border-border bg-card px-4 py-3">
-          <Link href="/" className="flex items-center gap-2 font-bold uppercase tracking-[-0.08em]">
-            <img src="/logo.png" alt="GitKiwi Logo" className="h-6 w-6 object-contain" />
-            GitKiwi
-          </Link>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/explore"
-              className="hidden sm:inline-block px-3 py-2 text-sm font-bold uppercase transition hover:text-muted-foreground"
-            >
-              Explore
-            </Link>
-            <a
-              href="https://github.com/GitNimay"
-              target="_blank"
-              rel="noreferrer"
-              className="hidden md:inline-block border border-border bg-card px-3 py-2 text-sm font-bold uppercase transition hover:border-foreground"
-            >
-              Support the Creator
-            </a>
-            <Link
-              href="/repository"
-              className="hidden sm:inline-block border border-foreground bg-foreground px-3 py-2 text-sm font-bold uppercase text-background transition hover:bg-background hover:text-foreground"
-            >
-              Start scan
-            </Link>
-            <ThemeToggle />
-          </div>
-        </nav>
+    <main
+      className={`relative min-h-screen bg-[#F6F4F0] text-[#0A0A0A] ${geist.className}`}
+    >
+      {/* Hero Wrapper to anchor background to this section only */}
+      <div className="relative min-h-screen flex flex-col justify-between">
+        {/* Desktop: background image with a smooth left-to-right gradient overlay to blend colors and hide overlaps */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 hidden bg-[#F6F4F0] bg-no-repeat md:block"
+          style={{
+            backgroundImage: "url('/bg-web.png')",
+            backgroundSize: "auto 100%",
+            backgroundPosition: "right bottom",
+          }}
+        >
+          <div
+            className="absolute inset-0 z-10"
+            style={{
+              background: "linear-gradient(to right, #F6F4F0 0%, #F6F4F0 35%, rgba(246, 244, 240, 0.9) 45%, rgba(246, 244, 240, 0) 70%)",
+            }}
+          />
+        </div>
+        {/* Mobile: background image with a top-to-bottom gradient overlay to blend and prevent overlap */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 bg-[#F6F4F0] bg-no-repeat md:hidden"
+          style={{
+            backgroundImage: "url('/bg-mobile.png')",
+            backgroundSize: "100% auto",
+            backgroundPosition: "right bottom",
+          }}
+        >
+          <div
+            className="absolute inset-0 z-10"
+            style={{
+              background: "linear-gradient(to bottom, #F6F4F0 0%, #F6F4F0 30%, rgba(246, 244, 240, 0.8) 45%, rgba(246, 244, 240, 0) 75%)",
+            }}
+          />
+        </div>
 
-        <div className="grid gap-8 py-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
-          <div className="enter-up">
-            <p className="mb-5 inline-flex border border-border bg-card px-3 py-2 text-xs font-bold uppercase text-muted-foreground">
-              Engineering Performance Analytics
-            </p>
-            <h1 className="max-w-5xl text-5xl font-black uppercase leading-[0.9] tracking-[-0.12em] sm:text-7xl lg:text-8xl">
-              Reveal the true impact in your code.
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-              Scan commits, pull requests, reviews, changed files, and activity cadence to build
-              an interactive leaderboard that can be shared with the whole team.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-1 flex-col px-5 sm:px-8 lg:px-10">
+          <nav className="flex h-14 shrink-0 items-center justify-between sm:h-16">
+            <Link href="/" className="flex items-center gap-2 text-lg font-black uppercase tracking-[-0.1em]" aria-label="Home">
+              <img src="/logo.png" alt="GitKiwi Logo" className="h-6 w-6 object-contain" />
+              GitKiwi
+            </Link>
+
+            <div className="hidden items-center gap-7 text-sm font-normal text-[#444] lg:flex">
+              <Link href="/repository" className="transition-colors hover:text-[#0A0A0A]">
+                Connect Repo
+              </Link>
+              <Link href="/workspace/new" className="transition-colors hover:text-[#0A0A0A]">
+                New Workspace
+              </Link>
+              <Link href="/explore" className="transition-colors hover:text-[#0A0A0A]">
+                Explore
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-3">
               <Link
                 href="/repository"
-                className="hard-shadow border border-foreground bg-foreground px-6 py-4 text-center text-sm font-black uppercase text-background transition hover:-translate-y-1"
+                className="hidden h-9 items-center justify-center rounded-lg border border-black/10 bg-white/80 px-3.5 text-sm font-medium text-[#0A0A0A] backdrop-blur-sm transition hover:bg-white sm:inline-flex"
               >
-                Connect repository
+                Get Started
               </Link>
-              <Link
-                href="/explore"
-                className="border border-border bg-card px-6 py-4 text-center text-sm font-black uppercase transition hover:border-foreground"
+              <ThemeToggle />
+            </div>
+          </nav>
+
+          <section className="flex min-h-0 flex-1 flex-col justify-center pb-16 pt-4 sm:pb-20">
+            <div className="max-w-[45rem] enter-up">
+              <h1
+                className="font-semibold leading-[1.08] tracking-[-0.03em] text-[#0A0A0A]"
+                style={{ fontSize: "clamp(1.875rem, 4.2vw, 3.5rem)" }}
               >
-                Explore Projects
-              </Link>
-            </div>
-          </div>
+                <span className="block">Real-time Contributor</span>
+                <span className="block">Leaderboards &</span>
+                <span className="block text-[#666]">Analytics.</span>
+              </h1>
 
-          <div className="scanline border border-foreground bg-card p-4 hard-shadow">
-            <div className="border border-border bg-background p-4">
-              <div className="mb-6 flex items-center justify-between">
-                <span className="text-xs uppercase text-muted-foreground">live board preview</span>
-                <span className="h-3 w-3 animate-pulse bg-foreground" />
+              <p className="mt-5 max-w-[28rem] text-base leading-relaxed text-[#555] sm:mt-6 sm:text-lg sm:leading-[1.6]">
+                Scan any GitHub repository and generate interactive contributor leaderboards, scoring, timelines, and shareable analytics — instantly.
+              </p>
+
+              <div className="mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:items-center">
+                <Link
+                  href="/repository"
+                  className="inline-flex h-10 items-center justify-center rounded-lg bg-[#0A0A0A] px-5 text-sm font-medium text-white transition hover:bg-black/85"
+                >
+                  Analyze Repository
+                </Link>
+                <Link
+                  href="/explore"
+                  className="inline-flex h-10 items-center justify-center rounded-lg border border-black/15 bg-white/70 px-5 text-sm font-medium text-[#0A0A0A] backdrop-blur-sm transition hover:bg-white"
+                >
+                  Explore Community
+                </Link>
               </div>
-              {[
-                ["01", "maya", "2,480 pts", "94%"],
-                ["02", "sam", "2,110 pts", "80%"],
-                ["03", "ravi", "1,870 pts", "71%"],
-                ["04", "lee", "1,330 pts", "50%"],
-              ].map(([rank, name, points, width]) => (
-                <div key={rank} className="mb-4 grid grid-cols-[40px_1fr_88px] items-center gap-3">
-                  <span className="border border-border bg-muted px-2 py-1 text-center text-xs">{rank}</span>
-                  <div>
-                    <div className="mb-2 flex justify-between text-sm font-bold uppercase">
-                      <span>{name}</span>
-                      <span>{points}</span>
-                    </div>
-                    <div className="h-3 border border-border bg-muted">
-                      <div className="h-full bg-foreground" style={{ width }} />
-                    </div>
-                  </div>
-                  <span className="text-right text-xs uppercase text-muted-foreground">merged</span>
+
+              {/* Bottom Stats Grid matching the reference layout */}
+              <div className="mt-12 grid grid-cols-3 gap-6 border-t border-black/5 pt-8 max-w-[30rem] sm:mt-16">
+                <div className="border-r border-black/10 pr-6">
+                  <div className="text-xl font-bold tracking-tight text-[#0A0A0A] sm:text-2xl">24/7</div>
+                  <div className="mt-1 text-[11px] text-[#555] leading-snug sm:text-xs">Real-time scans</div>
                 </div>
-              ))}
-              <div className="mt-7 grid grid-cols-3 gap-2 text-center text-xs uppercase">
-                <div className="border border-border bg-muted p-3">
-                  <b className="block text-lg">418</b>
-                  commits
+                <div className="border-r border-black/10 pr-6">
+                  <div className="text-xl font-bold tracking-tight text-[#0A0A0A] sm:text-2xl">100%</div>
+                  <div className="mt-1 text-[11px] text-[#555] leading-snug sm:text-xs">Secure analysis</div>
                 </div>
-                <div className="border border-border bg-muted p-3">
-                  <b className="block text-lg">96</b>
-                  PRs
-                </div>
-                <div className="border border-border bg-muted p-3">
-                  <b className="block text-lg">211</b>
-                  reviews
+                <div>
+                  <div className="text-xl font-bold tracking-tight text-[#0A0A0A] sm:text-2xl">Instant</div>
+                  <div className="mt-1 text-[11px] text-[#555] leading-snug sm:text-xs">Dev scoring</div>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
         </div>
-
-        <div className="grid gap-3 border border-border bg-card p-3 text-xs uppercase text-muted-foreground md:grid-cols-4">
-          <span>01 Connect Repo</span>
-          <span>02 Configure Rules</span>
-          <span>03 Real-time Scan</span>
-          <span>04 Share Insights</span>
-        </div>
-      </section>
+      </div>
     </main>
   );
 }
