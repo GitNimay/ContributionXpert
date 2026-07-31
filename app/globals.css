@@ -567,12 +567,10 @@ img {
   );
 }
 
-.landing-font {
-  --font-sans: "Pixelify Sans", sans-serif;
-  --font-mono: "Bitcount", monospace;
-  --font-serif: "Bitcount Single", serif;
-  font-weight: 300;
-  font-family: "Pixelify Sans", sans-serif;
+.landing-font,
+.landing-font * {
+  font-family: "Pixelify Sans", sans-serif !important;
+  font-weight: 300 !important;
 }
 
 .landing-font h1,
@@ -581,13 +579,21 @@ img {
 .landing-font h4,
 .landing-font h5,
 .landing-font h6 {
-  font-weight: 400;
-  font-family: "Pixelify Sans", sans-serif;
+  font-weight: 400 !important;
 }
 
-.landing-font p,
-.landing-font span,
-.landing-font li,
-.landing-font a {
-  font-weight: 300;
+.landing-font .font-semibold {
+  font-weight: 400 !important;
+}
+
+.landing-font .font-bold {
+  font-weight: 400 !important;
+}
+
+.landing-font .font-medium {
+  font-weight: 300 !important;
+}
+
+.landing-font .font-black {
+  font-weight: 400 !important;
 }
